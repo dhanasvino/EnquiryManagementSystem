@@ -804,6 +804,15 @@
     private Dictionary<string, string> inputErrors = new Dictionary<string, string>();
     private const string NO_DATA_FOUND = "No data found. Please select an existing item or use the 'New' button.";
 
+    // --- NEW: Request Number Sequence Simulation ---
+    private static int lastRequestNumber = 0;
+
+    private string GenerateRequestNumber()
+    {
+        lastRequestNumber++;
+        return lastRequestNumber.ToString("D4");
+    }
+
 
     // --- Data Lists (Sample Data) ---
     private List<string> allEmailAddresses = new()
@@ -970,6 +979,7 @@
     // --- Model Classes (Included for completeness) ---
     public class EnquiryModel
     {
+        public string? RequestNumber { get; set; }
         public string? SourceOfInfo { get; set; }
         public DateTime? EnquiryDate { get; set; } = DateTime.Now;
         public DateTime? DueOn { get; set; } = DateTime.Now.AddDays(7);
@@ -1424,7 +1434,7 @@
     }
 
     // --------------------------------------------------------------------------------
-    // --- NEW REUSABLE VALIDATION LOGIC ---
+    // --- REUSABLE VALIDATION LOGIC ---
     // --------------------------------------------------------------------------------
 
     /// <summary>
@@ -1454,9 +1464,43 @@
         return true;
     }
 
+    // --------------------------------------------------------------------------------
+    // --- NEW: FORM RESET LOGIC ---
+    // --------------------------------------------------------------------------------
+    private void ResetFormState()
+    {
+        // 1. Reset the core model (this clears all bound fields like ProjectName, Dates, Checkboxes, etc.)
+        enquiryModel = new EnquiryModel();
+
+        // 2. Reset single-select/input variables
+        selectedCustomer = null;
+        selectedSE = null;
+        selectedenqtype = null;
+        selectedenqfor = null;
+
+        // 3. Clear all listboxes (and their selection trackers)
+        listBoxCustomers.Clear();
+        listBoxperson.Clear();
+        seListBox.Clear();
+        enqtypelistbox.Clear();
+        enqforlistbox.Clear();
+
+        selectedEnqTypeListboxItems.Clear();
+        selectedEnqForListboxItems.Clear();
+        selectedCustomerListboxItems.Clear();
+        selectedReceivedFromListboxItems.Clear();
+        selectedSEListboxItems.Clear();
+
+        // 4. Clear validation messages
+        inputErrors.Clear();
+
+        // 5. Force UI refresh
+        StateHasChanged();
+    }
+
 
     // --------------------------------------------------------------------------------
-    // --- UPDATED MAIN FORM SUBMISSION HANDLER ---
+    // --- UPDATED MAIN FORM SUBMISSION HANDLER (With Request Number & Reset Logic) ---
     // --------------------------------------------------------------------------------
 
     private async Task HandleMainFormSubmit()
@@ -1496,25 +1540,33 @@
 
         // --- Submission Logic (Only runs if both validations pass) ---
 
-        // Step 1: Transfer Listbox data to the EnquiryModel
+        // Step 1: Generate Unique Request Number
+        string uniqueRequestNumber = GenerateRequestNumber();
+        enquiryModel.RequestNumber = uniqueRequestNumber;
+
+        // Step 2: Transfer Listbox data to the EnquiryModel
         enquiryModel.SelectedEnquiryTypes = enqtypelistbox.ToList();
         enquiryModel.SelectedEnquiryFors = enqforlistbox.ToList();
         enquiryModel.SelectedCustomers = listBoxCustomers.ToList();
         enquiryModel.SelectedReceivedFroms = listBoxperson.ToList();
         enquiryModel.SelectedConcernedSEs = seListBox.ToList();
 
-        // Step 2: Set the single-select dropdown values in the model
+        // Step 3: Set the single-select dropdown values in the model
         enquiryModel.ExistingCustomer = selectedCustomer;
         enquiryModel.ConcernedSE = selectedSE;
 
-        Console.WriteLine("--- Final Enquiry Model Data for Saving ---");
+        Console.WriteLine($"--- Final Enquiry Model Data for Saving (Request No: {enquiryModel.RequestNumber}) ---");
         // NOTE: Here you would typically call a service to save enquiryModel to your database.
 
-        await JS.InvokeVoidAsync("alert", "Enquiry successfully validated and ready for save.");
+        // Step 4: Show Success Alert
+        await JS.InvokeVoidAsync("alert", $"Enquiry successfully submitted! Your **Request Number** is: {enquiryModel.RequestNumber}");
+
+        // Step 5: RESET THE FORM STATE
+        ResetFormState();
     }
 
     // --------------------------------------------------------------------------------
-    // --- UPDATED LISTBOX ADD HANDLERS (with validation) ---
+    // --- LISTBOX ADD HANDLERS (with validation) ---
     // --------------------------------------------------------------------------------
 
     // Received From Listbox
