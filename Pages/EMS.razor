@@ -7,1491 +7,1499 @@
 <h3>Enquiry Management System</h3>
 <br />
 <EditForm Model="@enquiryModel" OnValidSubmit="HandleMainFormSubmit">
-<div class="row mb-2">
-<div class="col-md-4">
-<label class="form-label" style="font-size: 13px;">Source of Enquiry<span class="text-danger">*</span></label>
-<InputSelect class="form-select" @bind-Value="enquiryModel.SourceOfInfo" style="font-size: 13px;">
-<option value="">-- Select Source --</option>
-@foreach (var source in sourceOfInfos)
-{
-<option value="@source">@source</option>
-}
-</InputSelect>
-</div>
-</div>
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label class="form-label" style="font-size: 13px;">Source of Enquiry<span class="text-danger">*</span></label>
+            <InputSelect class="form-select" @bind-Value="enquiryModel.SourceOfInfo" style="font-size: 13px;">
+                <option value="">-- Select Source --</option>
+                @foreach (var source in sourceOfInfos)
+                {
+                    <option value="@source">@source</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
 
-<div class="row mb-2">
-<div class="col-md-1">
-<label class="form-label" style="font-size: 13px;"> Enquiry Date <span class="text-danger">*</span></label>
-<InputDate class="form-control" @bind-Value="enquiryModel.EnquiryDate" style="font-size: 13px;" />
-</div>
-<div class="col-md-1">
-<label class="form-label" style="font-size: 13px;">Due Date<span class="text-danger">*</span></label>
-<InputDate class="form-control" @bind-Value="enquiryModel.DueOn" style="font-size: 13px;" />
-</div>
-<div class="col-md-1">
-<label class="form-label" style="font-size: 13px;">Site visit date (If applicable)</label>
-<InputDate class="form-control" @bind-Value="enquiryModel.SiteVisitDate" style="font-size: 13px;" />
-</div>
+    <div class="row mb-2">
+        <div class="col-md-2">
+            <label class="form-label" style="font-size: 13px;"> Enquiry Date <span class="text-danger">*</span></label>
+            <InputDate class="form-control" @bind-Value="enquiryModel.EnquiryDate" style="font-size: 13px;" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label" style="font-size: 13px;">Due Date<span class="text-danger">*</span></label>
+            <InputDate class="form-control" @bind-Value="enquiryModel.DueOn" style="font-size: 13px;" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label" style="font-size: 13px;">Site visit date (If applicable)</label>
+            <InputDate class="form-control" @bind-Value="enquiryModel.SiteVisitDate" style="font-size: 13px;" />
+        </div>
 
-</div>
+    </div>
 
-<div class="row mb-2">
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Enquiry Type<span class="text-danger">*</span></label>
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label class="form-label" style="font-size: 13px;">Enquiry Type<span class="text-danger">*</span></label>
 
-<InputSelect class="form-select" @bind-Value="selectedenqtype" style="font-size: 13px;">
-<option value="">-- Select type --</option>
-@foreach (var source in enquirytype)
-{
-<option value="@source">@source</option>
-}
-</InputSelect>
+            <InputSelect class="form-select" @bind-Value="selectedenqtype" style="font-size: 13px;">
+                <option value="">-- Select type --</option>
+                @foreach (var source in enquirytype)
+                {
+                    <option value="@source">@source</option>
+                }
+            </InputSelect>
 
-<div class="d-flex align-items-center mt-1">
-<select class="form-select" multiple style="height: 75px; font-size: 13px;" @onchange="HandleEnqTypeListBoxSelection">
-@foreach (var item in enqtypelistbox)
-{
-<option value="@item">@item</option>
-}
-</select>
-<div class="d-flex flex-column ms-1">
-<button type="button" class="btn btn-outline-success mb-1" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="AddToListBoxenqtype">+</button>
-<button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveFromListBoxenqtype">-</button>
-</div>
-</div>
-</div>
-</div>
+            <div class="d-flex align-items-center mt-1">
+                <select class="form-select" multiple style="height: 75px; font-size: 13px;" @onchange="HandleEnqTypeListBoxSelection">
+                    @foreach (var item in enqtypelistbox)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+                <div class="d-flex flex-column ms-1">
+                    <button type="button" class="btn btn-outline-success mb-1" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="AddToListBoxenqtype">+</button>
+                    <button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveFromListBoxenqtype">-</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="row mb-2">
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Enquiry for<span class="text-danger">*</span></label>
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label class="form-label" style="font-size: 13px;">Enquiry for<span class="text-danger">*</span></label>
 
-<div class="input-group">
-<InputSelect class="form-select" @bind-Value="selectedenqfor" style="font-size: 13px;">
-<option value="">-- Select Enquiry for --</option>
-@foreach (var item in enquiryfor)
-{
-<option value="@item">@item</option>
-}
-</InputSelect>
-<button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewEnquiryForModal">New</button>
-<button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;"
-@onclick="StartEditEnquiryFor" disabled="@(string.IsNullOrWhiteSpace(selectedenqfor))">Edit</button>
-</div>
+            <div class="input-group">
+                <InputText id="enquiryForInput" class="form-control" @bind-Value="selectedenqfor" style="font-size: 13px;"
+                           list="enquiryForList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "enquiryForInput", "enquiryForList", e.Value)' />
+                <datalist id="enquiryForList">
+                    @foreach (var item in enquiryfor)
+                    {
+                        <option value="@item"></option>
+                    }
+                </datalist>
+                <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewEnquiryForModal">New</button>
+                <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;"
+                        @onclick="StartEditEnquiryFor" disabled="@(string.IsNullOrWhiteSpace(selectedenqfor))">
+                    Edit
+                </button>
+            </div>
 
-<div class="d-flex align-items-center mt-1">
-<select class="form-select" multiple style="height: 75px; font-size: 13px;" @onchange="HandleEnqForListBoxSelection">
-@foreach (var item in enqforlistbox)
-{
-<option value="@item">@item</option>
-}
-</select>
-<div class="d-flex flex-column ms-1">
-<button type="button" class="btn btn-outline-success mb-1" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="AddToListBoxenqfor">+</button>
-<button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveFromListBoxenqfor">-</button>
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="row mb-2">
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Customer Name</label>
-
-<div class="input-group position-relative">
-<InputText class="form-control"
-@bind-Value="customerSearchTerm"
-@oninput="(e) => HandleCustomerInput(e.Value?.ToString() ?? string.Empty)"
-placeholder="Type customer name..."
-style="font-size: 13px; height: 32px;" />
-
-<button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewCustomerInput">New</button>
-<button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;"
-@onclick="StartEditCompany" disabled="@(string.IsNullOrWhiteSpace(selectedCustomer))">Edit</button>
-
-@if (!string.IsNullOrWhiteSpace(customerSearchTerm) && filteredCustomers.Count > 0)
-{
-<div class="list-group position-absolute top-100 start-0 z-100 border shadow" style="width: 100%; max-height: 200px; overflow-y: auto;">
-@foreach (var customer in filteredCustomers)
-{
-<button type="button" class="list-group-item list-group-item-action"
-@onclick="() => SelectCustomerSuggestion(customer)"
-style="font-size: 13px; padding: 0.25rem 0.5rem;">
-@customer
-</button>
-}
-</div>
-}
-</div>
+            <div class="d-flex align-items-center mt-1">
+                <select class="form-select" multiple style="height: 75px; font-size: 13px;" @onchange="HandleEnqForListBoxSelection">
+                    @foreach (var item in enqforlistbox)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+                <div class="d-flex flex-column ms-1">
+                    <button type="button" class="btn btn-outline-success mb-1" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="AddToListBoxenqfor">+</button>
+                    <button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveFromListBoxenqfor">-</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-<div class="d-flex align-items-center mt-3">
-<select class="form-select" multiple style="height: 75px; font-size: 13px;" @onchange="HandleCustomerListBoxSelection">
-@foreach (var item in listBoxCustomers)
-{
-<option value="@item">@item</option>
-}
-</select>
-<div class="d-flex flex-column ms-1">
-<button type="button" class="btn btn-outline-success mb-1" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="AddSelectedCustomerToListBox">+</button>
-<button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveSelectedCustomerFromListBox">-</button>
-</div>
-</div>
-</div>
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label class="form-label" style="font-size: 13px;">Customer Name</label>
 
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Received From<span class="text-danger">*</span></label>
-
-<div class="input-group position-relative">
-<InputText class="form-control"
-@bind-Value="receivedFromSearchTerm"
-@oninput="(e) => HandleReceivedFromInput(e.Value?.ToString() ?? string.Empty)"
-placeholder="Type contact person..."
-style="font-size: 13px; height:32px; " />
-<button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewReceivedFromInput">New</button>
-<button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;"
-@onclick="StartEditContact" disabled="@(string.IsNullOrWhiteSpace(enquiryModel.ReceivedFrom))">Edit</button>
-
-@if (!string.IsNullOrWhiteSpace(receivedFromSearchTerm) && filteredReceivedFroms.Count > 0)
-{
-<div class="list-group position-absolute top-100 start-0 z-100 border shadow" style="width: 100%; max-height: 200px; overflow-y: auto;">
-@foreach (var contact in filteredReceivedFroms)
-{
-<button type="button" class="list-group-item list-group-item-action"
-@onclick="() => SelectReceivedFromSuggestion(contact)"
-style="font-size: 13px; padding: 0.25rem 0.5rem;">
-@contact
-</button>
-}
-</div>
-}
-</div>
+            <div class="input-group">
+                @* --- UPDATED TO USE HandleCustomerSelection --- *@
+                <InputText id="customerInput" class="form-control" @bind-Value="selectedCustomer" style="font-size: 13px; height: 32px;"
+                           list="customerList"
+                           @onchange="@((e) => HandleCustomerSelection(e.Value?.ToString()))" />
+                @* @oninput is removed here to prevent too-frequent calls, we rely on @onchange for a final selection. *@
+                <datalist id="customerList">
+                    @foreach (var customer in existingCustomers)
+                    {
+                        <option value="@customer"></option>
+                    }
+                </datalist>
+                <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewCustomerInput">New</button>
+                <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="StartEditCompany" disabled="@(string.IsNullOrWhiteSpace(selectedCustomer))">Edit</button>
+            </div>
 
 
-<div class="d-flex align-items-center mt-3">
-<select class="form-select" multiple style="height: 70px; font-size: 13px;" @onchange="HandleReceivedFromListBoxSelection">
-@foreach (var item in listBoxperson)
-{
-<option value="@item">@item</option>
-}
-</select>
-<div class="d-flex flex-column ms-1">
-<button type="button" class="btn btn-outline-success mb-1" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="AddToListBox">+</button>
-<button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveFromListBox">-</button>
-</div>
-</div>
-</div>
-</div>
+            <div class="d-flex align-items-center mt-1">
+                <select class="form-select" multiple style="height: 75px; font-size: 13px;" @onchange="HandleCustomerListBoxSelection">
+                    @foreach (var item in listBoxCustomers)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+                <div class="d-flex flex-column ms-1">
+                    <button type="button" class="btn btn-outline-success mb-1" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="AddSelectedCustomerToListBox">+</button>
+                    <button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveSelectedCustomerFromListBox">-</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label" style="font-size: 13px;">Received From<span class="text-danger">*</span></label>
+
+            <div class="input-group">
+                <InputText id="receivedFromInput" class="form-control" @bind-Value="enquiryModel.ReceivedFrom" style="font-size: 13px; height:32px;"
+                           list="receivedFromList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "receivedFromInput", "receivedFromList", e.Value)' />
+                <datalist id="receivedFromList">
+                    @foreach (var received in receivedFroms)
+                    {
+                        <option value="@received"></option>
+                    }
+                </datalist>
+                <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewReceivedFromInput">New</button>
+                <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="StartEditContact" disabled="@(string.IsNullOrWhiteSpace(enquiryModel.ReceivedFrom))">Edit</button>
+            </div>
 
 
-<div class="row mb-2">
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Project Name<span class="text-danger">*</span></label>
-<div class="input-group position-relative">
-<InputText class="form-control"
-@bind-Value="projectSearchTerm"
-@oninput="(e) => HandleProjectInput(e.Value?.ToString() ?? string.Empty)"
-placeholder="Type project name..."
-style="font-size: 13px;" />
-
-@if (!string.IsNullOrWhiteSpace(projectSearchTerm) && filteredProjectNames.Count > 0)
-{
-<div class="list-group position-absolute top-100 start-0 z-100 border shadow" style="width: 100%; max-height: 200px; overflow-y: auto;">
-@foreach (var project in filteredProjectNames)
-{
-<button type="button" class="list-group-item list-group-item-action"
-@onclick="() => SelectProjectSuggestion(project)"
-style="font-size: 13px; padding: 0.25rem 0.5rem;">
-@project
-</button>
-}
-</div>
-}
-</div>
-</div>
-</div>
-
-<div class="row mb-2">
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Client Name<span class="text-danger">*</span></label>
-<div class="input-group position-relative">
-<InputText class="form-control"
-@bind-Value="clientSearchTerm"
-@oninput="(e) => HandleClientInput(e.Value?.ToString() ?? string.Empty)"
-placeholder="Type client name..."
-style="font-size: 13px;" />
-
-<button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewClientInput">New</button>
-<button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="StartEditCompany" disabled="@(string.IsNullOrWhiteSpace(enquiryModel.ClientName))">Edit</button>
-
-@if (!string.IsNullOrWhiteSpace(clientSearchTerm) && filteredClientNames.Count > 0)
-{
-<div class="list-group position-absolute top-100 start-0 z-100 border shadow" style="width: 100%; max-height: 200px; overflow-y: auto;">
-@foreach (var client in filteredClientNames)
-{
-<button type="button" class="list-group-item list-group-item-action"
-@onclick="() => SelectClientSuggestion(client)"
-style="font-size: 13px; padding: 0.25rem 0.5rem;">
-@client
-</button>
-}
-</div>
-}
-</div>
-</div>
-</div>
-
-<div class="row mb-2">
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Consultant Name<span class="text-danger">*</span></label>
-<div class="input-group position-relative">
-<InputText class="form-control"
-@bind-Value="consultantSearchTerm"
-@oninput="(e) => HandleConsultantInput(e.Value?.ToString() ?? string.Empty)"
-placeholder="Type consultant name..."
-style="font-size: 13px;" />
-
-<button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewConsultantInput">New</button>
-<button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="StartEditCompany" disabled="@(string.IsNullOrWhiteSpace(enquiryModel.ConsultantName))">Edit</button>
-
-@if (!string.IsNullOrWhiteSpace(consultantSearchTerm) && filteredConsultantNames.Count > 0)
-{
-<div class="list-group position-absolute top-100 start-0 z-100 border shadow" style="width: 100%; max-height: 200px; overflow-y: auto;">
-@foreach (var consultant in filteredConsultantNames)
-{
-<button type="button" class="list-group-item list-group-item-action"
-@onclick="() => SelectConsultantSuggestion(consultant)"
-style="font-size: 13px; padding: 0.25rem 0.5rem;">
-@consultant
-</button>
-}
-</div>
-}
-</div>
-</div>
-</div>
-
-<div class="row mb-2">
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Concerned SE<span class="text-danger">*</span></label>
-
-<div class="input-group position-relative">
-<InputText class="form-control"
-@bind-Value="seSearchTerm"
-@oninput="(e) => HandleSEInput(e.Value?.ToString() ?? string.Empty)"
-placeholder="Type SE name..."
-style="font-size: 13px;" />
-
-<button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewUserModal">New</button>
-<button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;"
-@onclick="StartEditUser" disabled="@(string.IsNullOrWhiteSpace(selectedSE))">Edit</button>
-
-@if (!string.IsNullOrWhiteSpace(seSearchTerm) && filteredConcernedSEs.Count > 0)
-{
-<div class="list-group position-absolute top-100 start-0 z-100 border shadow" style="width: 100%; max-height: 200px; overflow-y: auto;">
-@foreach (var se in filteredConcernedSEs)
-{
-<button type="button" class="list-group-item list-group-item-action"
-@onclick="() => SelectSESuggestion(se)"
-style="font-size: 13px; padding: 0.25rem 0.5rem;">
-@se
-</button>
-}
-</div>
-}
-</div>
-
-<div class="d-flex align-items-center mt-3">
-<select class="form-select" multiple style="height: 70px; font-size: 13px;" @onchange="HandleSEListBoxSelection">
-@foreach (var se in seListBox)
-{
-<option value="@se">@se</option>
-}
-</select>
-<div class="d-flex flex-column ms-1">
-<button type="button" class="btn btn-outline-success mb-1" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="AddSEToListBoxToselectedSE">+</button>
-<button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveSEFromListBoxselectedSE">-</button>
-</div>
-</div>
-</div>
-</div>
-
-<div class="row mb-3">
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Enquiry details</label>
-<InputTextArea class="form-control" @bind-Value="enquiryModel.DetailsOfEnquiry" />
-</div>
-</div>
-
-<div class="row mb-2">
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Document received along with the enquiry</label>
-<div class="d-flex flex-wrap gap-2 mb-2" style="font-size: 13px;">
-<div class="form-check form-check-inline">
-<InputCheckbox class="form-check-input" @bind-Value="enquiryModel.hardcopy" id="hardcopyCheck" />
-<label class="form-check-label" for="hardcopyCheck">Hard Copies</label>
-</div>
-<div class="form-check form-check-inline">
-<InputCheckbox class="form-check-input" @bind-Value="enquiryModel.drawing" id="drawingCheck" />
-<label class="form-check-label" for="drawingCheck">Drawings</label>
-</div>
-<div class="form-check form-check-inline">
-<InputCheckbox class="form-check-input" @bind-Value="enquiryModel.dvd" id="dvdCheck" />
-<label class="form-check-label" for="dvdCheck">CD/DVD</label>
-</div>
-<div class="form-check form-check-inline">
-<InputCheckbox class="form-check-input" @bind-Value="enquiryModel.spec" id="specCheck" />
-<label class="form-check-label" for="specCheck">Specification</label>
-</div>
-<div class="form-check form-check-inline">
-<InputCheckbox class="form-check-input" @bind-Value="enquiryModel.eqpschedule" id="eqpscheduleCheck" />
-<label class="form-check-label" for="eqpscheduleCheck">Equipment Schedule</label>
-</div>
-</div>
-<label class="form-label" style="font-size: 13px;">Others Specify</label>
-<InputTextArea class="form-control" @bind-Value="enquiryModel.DocumentsReceived" />
-</div>
-</div>
+            <div class="d-flex align-items-center mt-1">
+                <select class="form-select" multiple style="height: 70px; font-size: 13px;" @onchange="HandleReceivedFromListBoxSelection">
+                    @foreach (var item in listBoxperson)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+                <div class="d-flex flex-column ms-1">
+                    <button type="button" class="btn btn-outline-success mb-1" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="AddToListBox">+</button>
+                    <button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveFromListBox">-</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-<div class="row mb-2">
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Remarks</label>
-<InputTextArea class="form-control" @bind-Value="enquiryModel.Remark" />
-</div>
-</div>
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label class="form-label" style="font-size: 13px;">Project Name<span class="text-danger">*</span></label>
+            <InputText id="projectNameInput" class="form-control" @bind-Value="enquiryModel.ProjectName" style="font-size: 13px;"
+                       list="projectNameList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "projectNameInput", "projectNameList", e.Value)' />
+            <datalist id="projectNameList">
+                @foreach (var client in projectNames)
+                {
+                    <option value="@client"></option>
+                }
+            </datalist>
+        </div>
+    </div>
 
-<div class="row mb-2">
-<div class="col-md-3">
-<div class="form-check" style="font-size: 13px;">
-<InputCheckbox class="form-check-input" @bind-Value="enquiryModel.AutoAck" id="autoAckCheck" />
-<label class="form-check-label" for="autoAckCheck">Is it necessary to send an acknowledgement mail to the customer ?</label>
-</div>
-<div class="form-check" style="font-size: 13px;">
-<InputCheckbox class="form-check-input" @bind-Value="enquiryModel.ceosign" id="ceoSignCheck" />
-<label class="form-check-label" for="ceoSignCheck">Is ED/CEO Signature required ? </label>
-</div>
-</div>
-</div>
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label class="form-label" style="font-size: 13px;">Client Name<span class="text-danger">*</span></label>
+            <div class="input-group">
+                <InputText id="clientNameInput" class="form-control" @bind-Value="enquiryModel.ClientName" style="font-size: 13px;"
+                           list="clientNameList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "clientNameInput", "clientNameList", e.Value)' />
+                <datalist id="clientNameList">
+                    @foreach (var client in clientNames)
+                    {
+                        <option value="@client"></option>
+                    }
+                </datalist>
+                <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewClientInput">New</button>
+                <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="StartEditCompany" disabled="@(string.IsNullOrWhiteSpace(enquiryModel.ClientName))">Edit</button>
+            </div>
+        </div>
+    </div>
 
-<div class="row mt-4 pb-6" style="padding-bottom: 50px;">
-<div class="col-12">
-<button type="submit" class="btn btn-outline-success me-2"><i class="bi bi-plus-circle"></i> Add</button>
-<button type="button" class="btn btn-outline-danger me-2"><i class="bi bi-x-circle"></i> Cancel</button>
-</div>
-</div>
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label class="form-label" style="font-size: 13px;">Consultant Name<span class="text-danger">*</span></label>
+            <div class="input-group">
+                <InputText id="consultantNameInput" class="form-control" @bind-Value="enquiryModel.ConsultantName" style="font-size: 13px;"
+                           list="consultantNameList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "consultantNameInput", "consultantNameList", e.Value)' />
+                <datalist id="consultantNameList">
+                    @foreach (var consultant in consultantNames)
+                    {
+                        <option value="@consultant"></option>
+                    }
+                </datalist>
+                <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewConsultantInput">New</button>
+                <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="StartEditCompany" disabled="@(string.IsNullOrWhiteSpace(enquiryModel.ConsultantName))">Edit</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label class="form-label" style="font-size: 13px;">Concerned SE<span class="text-danger">*</span></label>
+
+            <div class="input-group">
+                <InputText id="concernedSEInput" class="form-control" @bind-Value="selectedSE" style="font-size: 13px;"
+                           list="concernedSEList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "concernedSEInput", "concernedSEList", e.Value)' />
+                <datalist id="concernedSEList">
+                    @foreach (var se in concernedSEs)
+                    {
+                        <option value="@se"></option>
+                    }
+                </datalist>
+                <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewUserModal">New</button>
+                <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;"
+                        @onclick="StartEditUser" disabled="@(string.IsNullOrWhiteSpace(selectedSE))">
+                    Edit
+                </button>
+            </div>
+
+            <div class="d-flex align-items-center mt-1">
+                <select class="form-select" multiple style="height: 70px; font-size: 13px;" @onchange="HandleSEListBoxSelection">
+                    @foreach (var se in seListBox)
+                    {
+                        <option value="@se">@se</option>
+                    }
+                </select>
+                <div class="d-flex flex-column ms-1">
+                    <button type="button" class="btn btn-outline-success mb-1" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="AddSEToListBoxToselectedSE">+</button>
+                    <button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveSEFromListBoxselectedSE">-</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="form-label" style="font-size: 13px;">Enquiry details</label>
+            <InputTextArea class="form-control" @bind-Value="enquiryModel.DetailsOfEnquiry" />
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label class="form-label" style="font-size: 13px;">Document received along with the enquiry</label>
+            <div class="d-flex flex-wrap gap-2 mb-2" style="font-size: 13px;">
+                <div class="form-check form-check-inline">
+                    <InputCheckbox class="form-check-input" @bind-Value="enquiryModel.hardcopy" id="hardcopyCheck" />
+                    <label class="form-check-label" for="hardcopyCheck">Hard Copies</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <InputCheckbox class="form-check-input" @bind-Value="enquiryModel.drawing" id="drawingCheck" />
+                    <label class="form-check-label" for="drawingCheck">Drawings</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <InputCheckbox class="form-check-input" @bind-Value="enquiryModel.dvd" id="dvdCheck" />
+                    <label class="form-check-label" for="dvdCheck">CD/DVD</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <InputCheckbox class="form-check-input" @bind-Value="enquiryModel.spec" id="specCheck" />
+                    <label class="form-check-label" for="specCheck">Specification</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <InputCheckbox class="form-check-input" @bind-Value="enquiryModel.eqpschedule" id="eqpscheduleCheck" />
+                    <label class="form-check-label" for="eqpscheduleCheck">Equipment Schedule</label>
+                </div>
+            </div>
+            <label class="form-label" style="font-size: 13px;">Others Specify</label>
+            <InputTextArea class="form-control" @bind-Value="enquiryModel.DocumentsReceived" />
+        </div>
+    </div>
+
+
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label class="form-label" style="font-size: 13px;">Remarks</label>
+            <InputTextArea class="form-control" @bind-Value="enquiryModel.Remark" />
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <div class="form-check" style="font-size: 13px;">
+                <InputCheckbox class="form-check-input" @bind-Value="enquiryModel.AutoAck" id="autoAckCheck" />
+                <label class="form-check-label" for="autoAckCheck">Is it necessary to send an acknowledgement mail to the customer ?</label>
+            </div>
+            <div class="form-check" style="font-size: 13px;">
+                <InputCheckbox class="form-check-input" @bind-Value="enquiryModel.ceosign" id="ceoSignCheck" />
+                <label class="form-check-label" for="ceoSignCheck">Is ED/CEO Signature required ? </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4 mb-4" style="padding-bottom: 100px;">
+        <div class="col-12">
+            <button type="submit" class="btn btn-outline-success me-2"><i class="bi bi-plus-circle"></i> Add</button>
+            <button type="button" class="btn btn-outline-danger me-2"><i class="bi bi-x-circle"></i> Cancel</button>
+        </div>
+    </div>
 
 
 </EditForm>
 
 
+@* --- Customer/Client/Consultant Modal (UPDATED WITH STATUS FIELD) --- *@
 <div class="modal @(showCustomerModal ? "d-block show" : "")" tabindex="-1" role="dialog" style="display: @(showCustomerModal ? "block" : "none"); background-color: rgba(0,0,0,0.5);">
-<div class="modal-dialog modal-lg" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title">CCC Details (@(modalMode == "Add" ? "New" : "Edit") Customer/Client/Consultant)</h5>
-<button type="button" class="btn-close" aria-label="Close" @onclick="() => showCustomerModal = false"></button>
-</div>
-<EditForm Model="@newCustomerCompany" OnValidSubmit="HandleNewCompanySubmit">
-<div class="modal-body">
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Category</label>
-<InputSelect class="form-select" @bind-Value="newCustomerCompany.Category" style="font-size: 13px;">
-<option>Contractor</option>
-<option>Client</option>
-<option>Consultant</option>
-</InputSelect>
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Company Name<span class="text-danger">*</span></label>
-<InputText class="form-control" @bind-Value="newCustomerCompany.CompanyName" style="font-size: 13px;" />
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Address 1<span class="text-danger">*</span></label>
-<InputTextArea class="form-control" @bind-Value="newCustomerCompany.Address1" style="font-size: 13px;" />
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Address 2</label>
-<InputTextArea class="form-control" @bind-Value="newCustomerCompany.Address2" style="font-size: 13px;" />
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Rating</label>
-<InputText class="form-control" @bind-Value="newCustomerCompany.Rating" style="font-size: 13px;" />
-</div>
-<div class="col-md-3">
-<label class="form-label" style="font-size: 13px;">Type</label>
-<InputText class="form-control" @bind-Value="newCustomerCompany.Type" style="font-size: 13px;" />
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Fax No.</label>
-<InputText class="form-control" @bind-Value="newCustomerCompany.FaxNo" style="font-size: 13px;" />
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Phone 1<span class="text-danger">*</span></label>
-<InputText class="form-control" @bind-Value="newCustomerCompany.Phone1" style="font-size: 13px;" />
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Phone 2</label>
-<InputText class="form-control" @bind-Value="newCustomerCompany.Phone2" style="font-size: 13px;" />
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">E-Mail ID</label>
-<InputText class="form-control" @bind-Value="newCustomerCompany.EmailId" style="font-size: 13px;" />
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Website</label>
-<InputText class="form-control" @bind-Value="newCustomerCompany.Website" style="font-size: 13px;" />
-</div>
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" style="width: 80px;" @onclick="() => showCustomerModal = false">Cancel</button>
-@if (modalMode == "Add")
-{
-<button type="submit" class="btn btn-primary" style="width: 80px;">Add</button>
-}
-else if (modalMode == "Edit")
-{
-<button type="submit" class="btn btn-primary" style="width: 80px;">Update</button>
-}
-</div>
-</EditForm>
-</div>
-</div>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">CCC Details (@(modalMode == "Add" ? "New" : "Edit") Customer/Client/Consultant)</h5>
+                <button type="button" class="btn-close" aria-label="Close" @onclick="() => showCustomerModal = false"></button>
+            </div>
+            <EditForm Model="@newCustomerCompany" OnValidSubmit="HandleNewCompanySubmit">
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Category</label>
+                            <InputSelect class="form-select" @bind-Value="newCustomerCompany.Category" style="font-size: 13px;">
+                                <option>Contractor</option>
+                                <option>Client</option>
+                                <option>Consultant</option>
+                            </InputSelect>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Company Name<span class="text-danger">*</span></label>
+                            <InputText class="form-control" @bind-Value="newCustomerCompany.CompanyName" style="font-size: 13px;" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Address 1<span class="text-danger">*</span></label>
+                            <InputTextArea class="form-control" @bind-Value="newCustomerCompany.Address1" style="font-size: 13px;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Address 2</label>
+                            <InputTextArea class="form-control" @bind-Value="newCustomerCompany.Address2" style="font-size: 13px;" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <label class="form-label" style="font-size: 13px;">Rating</label>
+                            <InputText class="form-control" @bind-Value="newCustomerCompany.Rating" style="font-size: 13px;" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label" style="font-size: 13px;">Type</label>
+                            <InputText class="form-control" @bind-Value="newCustomerCompany.Type" style="font-size: 13px;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Fax No.</label>
+                            <InputText class="form-control" @bind-Value="newCustomerCompany.FaxNo" style="font-size: 13px;" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Phone 1<span class="text-danger">*</span></label>
+                            <InputText class="form-control" @bind-Value="newCustomerCompany.Phone1" style="font-size: 13px;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Phone 2</label>
+                            <InputText class="form-control" @bind-Value="newCustomerCompany.Phone2" style="font-size: 13px;" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">E-Mail ID</label>
+                            <InputText class="form-control" @bind-Value="newCustomerCompany.EmailId" style="font-size: 13px;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Website</label>
+                            <InputText class="form-control" @bind-Value="newCustomerCompany.Website" style="font-size: 13px;" />
+                        </div>
+                    </div>
+
+                    @* --- STATUS FIELD ADDED HERE --- *@
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Status</label>
+                            <div class="d-flex align-items-center">
+                                <InputSelect class="form-select" @bind-Value="newCustomerCompany.Status" style="font-size: 13px; width: 100px;">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </InputSelect>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" style="width: 80px;" @onclick="() => showCustomerModal = false">Cancel</button>
+                    @if (modalMode == "Add")
+                    {
+                        <button type="submit" class="btn btn-primary" style="width: 80px;">Add</button>
+                    }
+                    else if (modalMode == "Edit")
+                    {
+                        <button type="submit" class="btn btn-primary" style="width: 80px;">Update</button>
+                    }
+                </div>
+            </EditForm>
+        </div>
+    </div>
 </div>
 
+@* --- Contact Person Modal --- *@
 <div class="modal @(showContactModal ? "d-block show" : "")" tabindex="-1" role="dialog" style="display: @(showContactModal ? "block" : "none"); background-color: rgba(0,0,0,0.5);">
-<div class="modal-dialog modal-lg" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title">Contact Details (@(modalMode == "Add" ? "New" : "Edit") Contact Person)</h5>
-<button type="button" class="btn-close" aria-label="Close" @onclick="() => showContactModal = false"></button>
-</div>
-<EditForm Model="@newContactPerson" OnValidSubmit="HandleNewContactSubmit">
-<div class="modal-body">
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Category</label>
-<InputSelect class="form-select" @bind-Value="newContactPerson.Category" style="font-size: 13px;">
-<option>Contractor</option>
-<option>Client</option>
-<option>Consultant</option>
-</InputSelect>
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Company Name<span class="text-danger">*</span></label>
-<InputText class="form-control" @bind-Value="newContactPerson.CompanyName" style="font-size: 13px;" />
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Contact Name<span class="text-danger">*</span></label>
-<InputText class="form-control" @bind-Value="newContactPerson.ContactName" style="font-size: 13px;" />
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Designation</label>
-<InputText class="form-control" @bind-Value="newContactPerson.Designation" style="font-size: 13px;" />
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Category of Designation</label>
-<InputText class="form-control" @bind-Value="newContactPerson.CategoryOfDesignation" style="font-size: 13px;" />
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Address 1<span class="text-danger">*</span></label>
-<InputTextArea class="form-control" @bind-Value="newContactPerson.Address1" style="font-size: 13px;" />
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Address 2</label>
-<InputTextArea class="form-control" @bind-Value="newContactPerson.Address2" style="font-size: 13px;" />
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Fax No.</label>
-<InputText class="form-control" @bind-Value="newContactPerson.FaxNo" style="font-size: 13px;" />
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Phone</label>
-<InputText class="form-control" @bind-Value="newContactPerson.Phone" style="font-size: 13px;" />
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Mobile 1</label>
-<InputText class="form-control" @bind-Value="newContactPerson.Mobile1" style="font-size: 13px;" />
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Mobile 2</label>
-<InputText class="form-control" @bind-Value="newContactPerson.Mobile2" style="font-size: 13px;" />
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">E-Mail ID</label>
-<InputText class="form-control" @bind-Value="newContactPerson.EmailId" style="font-size: 13px;" />
-</div>
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" style="width: 80px;" @onclick="() => showContactModal = false">Cancel</button>
-@if (modalMode == "Add")
-{
-<button type="submit" class="btn btn-primary" style="width: 80px;">Add</button>
-}
-else if (modalMode == "Edit")
-{
-<button type="submit" class="btn btn-primary" style="width: 80px;">Update</button>
-}
-</div>
-</EditForm>
-</div>
-</div>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Contact Details (@(modalMode == "Add" ? "New" : "Edit") Contact Person)</h5>
+                <button type="button" class="btn-close" aria-label="Close" @onclick="() => showContactModal = false"></button>
+            </div>
+            <EditForm Model="@newContactPerson" OnValidSubmit="HandleNewContactSubmit">
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Category</label>
+                            <InputSelect class="form-select" @bind-Value="newContactPerson.Category" style="font-size: 13px;">
+                                <option>Contractor</option>
+                                <option>Client</option>
+                                <option>Consultant</option>
+                            </InputSelect>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Company Name<span class="text-danger">*</span></label>
+                            <InputText class="form-control" @bind-Value="newContactPerson.CompanyName" style="font-size: 13px;" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Contact Name<span class="text-danger">*</span></label>
+                            <InputText class="form-control" @bind-Value="newContactPerson.ContactName" style="font-size: 13px;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Designation</label>
+                            <InputText class="form-control" @bind-Value="newContactPerson.Designation" style="font-size: 13px;" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Category of Designation</label>
+                            <InputText class="form-control" @bind-Value="newContactPerson.CategoryOfDesignation" style="font-size: 13px;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Address 1<span class="text-danger">*</span></label>
+                            <InputTextArea class="form-control" @bind-Value="newContactPerson.Address1" style="font-size: 13px;" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Address 2</label>
+                            <InputTextArea class="form-control" @bind-Value="newContactPerson.Address2" style="font-size: 13px;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Fax No.</label>
+                            <InputText class="form-control" @bind-Value="newContactPerson.FaxNo" style="font-size: 13px;" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Phone</label>
+                            <InputText class="form-control" @bind-Value="newContactPerson.Phone" style="font-size: 13px;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Mobile 1</label>
+                            <InputText class="form-control" @bind-Value="newContactPerson.Mobile1" style="font-size: 13px;" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Mobile 2</label>
+                            <InputText class="form-control" @bind-Value="newContactPerson.Mobile2" style="font-size: 13px;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">E-Mail ID</label>
+                            <InputText class="form-control" @bind-Value="newContactPerson.EmailId" style="font-size: 13px;" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" style="width: 80px;" @onclick="() => showContactModal = false">Cancel</button>
+                    @if (modalMode == "Add")
+                    {
+                        <button type="submit" class="btn btn-primary" style="width: 80px;">Add</button>
+                    }
+                    else if (modalMode == "Edit")
+                    {
+                        <button type="submit" class="btn btn-primary" style="width: 80px;">Update</button>
+                    }
+                </div>
+            </EditForm>
+        </div>
+    </div>
 </div>
 
+@* --- User (Concerned SE) Modal (UPDATED WITH REPORTS ROLE) --- *@
 <div class="modal @(showUserModal ? "d-block show" : "")" tabindex="-1" role="dialog" style="display: @(showUserModal ? "block" : "none"); background-color: rgba(0,0,0,0.5);">
-<div class="modal-dialog modal-lg" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title">New User (Concerned SE)</h5>
-<button type="button" class="btn-close" aria-label="Close" @onclick="() => showUserModal = false"></button>
-</div>
-<EditForm Model="@newUserModel" OnValidSubmit="HandleNewUserSubmit">
-<div class="modal-body">
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Full Name</label>
-<InputText class="form-control" @bind-Value="newUserModel.FullName" style="font-size: 13px;" />
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Designation</label>
-<InputSelect class="form-select" @bind-Value="newUserModel.Designation" style="font-size: 13px;">
-<option value="">-- Select Designation --</option>
-<option value="Sales Engineer">Sales Engineer</option>
-<option value="Sr. Sales Engineer">Sr. Sales Engineer</option>
-<option value="Manager">Manager</option>
-</InputSelect>
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Company Name</label>
-<InputSelect class="form-select" @bind-Value="newUserModel.CompanyName" style="font-size: 13px;">
-<option value="">-- Select Company --</option>
-<option value="Your Company">Your Company</option>
-</InputSelect>
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Department</label>
-<InputSelect class="form-select" @bind-Value="newUserModel.Department" style="font-size: 13px;">
-<option value="">-- Select Department --</option>
-<option value="Sales">Sales</option>
-<option value="Marketing">Marketing</option>
-</InputSelect>
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">User ID (Mail ID)</label>
-<InputText class="form-control" @bind-Value="newUserModel.MailId" style="font-size: 13px;" />
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Login Password</label>
-<InputText type="password" class="form-control" @bind-Value="newUserModel.LoginPassword" style="font-size: 13px;" />
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Status</label>
-<div class="d-flex align-items-center">
-<InputSelect class="form-select" @bind-Value="newUserModel.Status" style="font-size: 13px; width: 100px;">
-<option value="Active">Active</option>
-<option value="Inactive">Inactive</option>
-</InputSelect>
-</div>
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Role / Access level</label>
-<InputSelect class="form-select" @bind-Value="newUserModel.Role" style="font-size: 13px;">
-<option value="Enquiry">Enquiry</option>
-<option value="Pricing">Pricing</option>
-<option value="Quote">Quote</option>
-<option value="Dashboard">Dashboard</option>
-</InputSelect>
-</div>
-</div>
-</div>
-<div class="modal-footer">
-@if (modalMode == "Add")
-{
-<button type="submit" class="btn btn-primary" style="width: 80px;">Add</button>
-}
-else if (modalMode == "Edit")
-{
-<button type="submit" class="btn btn-primary" style="width: 80px;">Update</button>
-}
-<button type="button" class="btn btn-danger" style="width: 80px;" @onclick="() => showUserModal = false">Cancel</button>
-</div>
-</EditForm>
-</div>
-</div>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New User (Concerned SE)</h5>
+                <button type="button" class="btn-close" aria-label="Close" @onclick="() => showUserModal = false"></button>
+            </div>
+            <EditForm Model="@newUserModel" OnValidSubmit="HandleNewUserSubmit">
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Full Name</label>
+                            <InputText class="form-control" @bind-Value="newUserModel.FullName" style="font-size: 13px;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Designation</label>
+                            <InputSelect class="form-select" @bind-Value="newUserModel.Designation" style="font-size: 13px;">
+                                <option value="">-- Select Designation --</option>
+                                <option value="Sales Engineer">Sales Engineer</option>
+                                <option value="Sr. Sales Engineer">Sr. Sales Engineer</option>
+                                <option value="Manager">Manager</option>
+                            </InputSelect>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Company Name</label>
+                            <InputSelect class="form-select" @bind-Value="newUserModel.CompanyName" style="font-size: 13px;">
+                                <option value="">-- Select Company --</option>
+                                <option value="Your Company">Your Company</option>
+                            </InputSelect>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Department</label>
+                            <InputSelect class="form-select" @bind-Value="newUserModel.Department" style="font-size: 13px;">
+                                <option value="">-- Select Department --</option>
+                                <option value="Sales">Sales</option>
+                                <option value="Marketing">Marketing</option>
+                            </InputSelect>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">User ID (Mail ID)</label>
+                            <InputText class="form-control" @bind-Value="newUserModel.MailId" style="font-size: 13px;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Login Password</label>
+                            <InputText type="password" class="form-control" @bind-Value="newUserModel.LoginPassword" style="font-size: 13px;" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Status</label>
+                            <div class="d-flex align-items-center">
+                                <InputSelect class="form-select" @bind-Value="newUserModel.Status" style="font-size: 13px; width: 100px;">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </InputSelect>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Role / Access level</label>
+                            <InputSelect class="form-select" @bind-Value="newUserModel.Role" style="font-size: 13px;">
+                                <option value="Enquiry">Enquiry</option>
+                                <option value="Pricing">Pricing</option>
+                                <option value="Quote">Quote</option>
+                                <option value="Dashboard">Dashboard</option>
+                                <option value="Reports">Reports</option> @* <--- NEW OPTION ADDED HERE*@
+                            </InputSelect>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @if (modalMode == "Add")
+                    {
+                        <button type="submit" class="btn btn-primary" style="width: 80px;">Add</button>
+                    }
+                    else if (modalMode == "Edit")
+                    {
+                        <button type="submit" class="btn btn-primary" style="width: 80px;">Update</button>
+                    }
+                    <button type="button" class="btn btn-danger" style="width: 80px;" @onclick="() => showUserModal = false">Cancel</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
 </div>
 
+@* --- Enquiry For Item Modal (with autosuggest emails) --- *@
 <div class="modal @(showEnqForModal ? "d-block show" : "")" tabindex="-1" role="dialog" style="display: @(showEnqForModal ? "block" : "none"); background-color: rgba(0,0,0,0.5);">
-<div class="modal-dialog modal-lg" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title">Enquiry Item (@(modalMode == "Add" ? "New" : "Edit") Enquiry For)</h5>
-<button type="button" class="btn-close" aria-label="Close" @onclick="() => showEnqForModal = false"></button>
-</div>
-<EditForm Model="@newEnquiryForItem" OnValidSubmit="HandleNewEnquiryForSubmit">
-<div class="modal-body">
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Company Name</label>
-<InputSelect class="form-select" @bind-Value="newEnquiryForItem.CompanyName" style="font-size: 13px;">
-<option value="">-- Select Company --</option>
-<option value="Company A">Company A</option>
-<option value="Company B">Company B</option>
-</InputSelect>
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Department Name</label>
-<InputSelect class="form-select" @bind-Value="newEnquiryForItem.DepartmentName" style="font-size: 13px;">
-<option value="">-- Select Department --</option>
-<option value="Sales">Sales</option>
-<option value="Technical">Technical</option>
-</InputSelect>
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">Common mail Id to send notification</label>
-<InputSelect class="form-select" @bind-Value="newEnquiryForItem.CommonMailId" style="font-size: 13px;">
-<option value="">-- Select Mail ID --</option>
-<option value="common@a.com">common@a.com</option>
-</InputSelect>
-</div>
-<div class="col-md-6">
-<label class="form-label" style="font-size: 13px;">CC mail ID to send notification</label>
-<InputSelect class="form-select" @bind-Value="newEnquiryForItem.CCMailId" style="font-size: 13px;">
-<option value="">-- Select Mail ID --</option>
-<option value="cc@a.com">cc@a.com</option>
-</InputSelect>
-</div>
-</div>
-<div class="row mb-2">
-<div class="col-md-6">
-<InputTextArea class="form-control" @bind-Value="newEnquiryForItem.TextArea1" style="font-size: 13px;" />
-</div>
-<div class="col-md-6">
-<InputTextArea class="form-control" @bind-Value="newEnquiryForItem.TextArea2" style="font-size: 13px;" />
-</div>
-</div>
-</div>
-<div class="modal-footer d-flex justify-content-start">
-@if (modalMode == "Add")
-{
-<button type="submit" class="btn btn-primary me-2" style="width: 80px;">Add</button>
-}
-else if (modalMode == "Edit")
-{
-<button type="submit" class="btn btn-primary me-2" style="width: 80px;">Update</button>
-}
-<button type="button" class="btn btn-danger" style="width: 80px;" @onclick="() => showEnqForModal = false">Cancel</button>
-</div>
-</EditForm>
-</div>
-</div>
-</div>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enquiry Item (@(modalMode == "Add" ? "New" : "Edit") Enquiry For)</h5>
+                <button type="button" class="btn-close" aria-label="Close" @onclick="() => showEnqForModal = false"></button>
+            </div>
+            <EditForm Model="@newEnquiryForItem" OnValidSubmit="HandleNewEnquiryForSubmit">
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Company Name</label>
+                            <InputSelect class="form-select" @bind-Value="newEnquiryForItem.CompanyName" style="font-size: 13px;">
+                                <option value="">-- Select Company --</option>
+                                <option value="Company A">Company A</option>
+                                <option value="Company B">Company B</option>
+                            </InputSelect>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Department Name</label>
+                            <InputSelect class="form-select" @bind-Value="newEnquiryForItem.DepartmentName" style="font-size: 13px;">
+                                <option value="">-- Select Department --</option>
+                                <option value="Sales">Sales</option>
+                                <option value="Technical">Technical</option>
+                            </InputSelect>
+                        </div>
+                    </div>
 
+                    @* --- Common Mail ID Section (Autosuggest + Listbox) --- *@
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">Common mail Id to send notification</label>
+
+                            <InputText id="commonMailInput" class="form-control" @bind-Value="newCommonMailEntry" style="font-size: 13px;" placeholder="Enter email address"
+                                       list="emailSuggestions" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "commonMailInput", "emailSuggestions", e.Value)' />
+
+                            <datalist id="emailSuggestions">
+                                @foreach (var email in allEmailAddresses)
+                                {
+                                    <option value="@email"></option>
+                                }
+                            </datalist>
+
+                            <div class="d-flex align-items-center mt-1">
+                                <select class="form-select" multiple style="height: 75px; font-size: 13px;" @onchange="HandleCommonMailListBoxSelection">
+                                    @foreach (var item in newEnquiryForItem.CommonMailIds)
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                </select>
+                                <div class="d-flex flex-column ms-1">
+                                    <button type="button" class="btn btn-outline-success mb-1" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="AddCommonMailToListBox">+</button>
+                                    <button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveCommonMailFromListBox">-</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        @* --- CC Mail ID Section (Autosuggest + Listbox) --- *@
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-size: 13px;">CC mail ID to send notification</label>
+
+                            <InputText id="ccMailInput" class="form-control" @bind-Value="newCCMailEntry" style="font-size: 13px;" placeholder="Enter email address"
+                                       list="emailSuggestions" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "ccMailInput", "emailSuggestions", e.Value)' />
+
+                            <div class="d-flex align-items-center mt-1">
+                                <select class="form-select" multiple style="height: 75px; font-size: 13px;" @onchange="HandleCCMailListBoxSelection">
+                                    @foreach (var item in newEnquiryForItem.CCMailIds)
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                </select>
+                                <div class="d-flex flex-column ms-1">
+                                    <button type="button" class="btn btn-outline-success mb-1" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="AddCCMailToListBox">+</button>
+                                    <button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveCCMailFromListBox">-</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-start">
+                    @if (modalMode == "Add")
+                    {
+                        <button type="submit" class="btn btn-primary me-2" style="width: 80px;">Add</button>
+                    }
+                    else if (modalMode == "Edit")
+                    {
+                        <button type="submit" class="btn btn-primary me-2" style="width: 80px;">Update</button>
+                    }
+                    <button type="button" class="btn btn-danger" style="width: 80px;" @onclick="() => showEnqForModal = false">Cancel</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
 
 @code {
-[Inject]
-private IJSRuntime JS { get; set; } = default!;
-
-// --- Modal State Variables ---
-private bool showContactModal = false;
-private bool showCustomerModal = false;
-private bool showUserModal = false;
-private bool showEnqForModal = false;
-
-private ContactPersonModel newContactPerson = new();
-private CustomerCompanyModel newCustomerCompany = new();
-private UserModel newUserModel = new();
-private EnquiryForItemModel newEnquiryForItem = new();
-
-private ContactPersonModel? contactToEdit = null;
-private CustomerCompanyModel? companyToEdit = null;
-private UserModel? userToEdit = null;
-private EnquiryForItemModel? enqItemToEdit = null;
-private string modalMode = "Add";
-
-
-// --- Data Lists (Sample Data) ---
-private List<string> sourceOfInfos = new() { "Email", "Phone", "Tender Board", "Customer Visit", "Cold visit by us", "Website", "Fax", "Thru top management", "News Paper" };
-private List<string> enquirytype = new() { "New Tender", "Re-Tender", "Job in hand", "Variation / Change order", "Supply only", "Maintenance", "Retrofit", "Upgradation", "Refurbishment", "Service", "Hiring", "Renting", "Facility Management", "Demo/Mock up", "Design" };
-
-// MODIFIED: Use new fields for EnquiryForItemModel
-private List<EnquiryForItemModel> storedEnqItems = new()
-{
-new EnquiryForItemModel { ItemName = "Item A", CompanyName = "Company A", DepartmentName = "Sales" },
-new EnquiryForItemModel { ItemName = "Item B", CompanyName = "Company B", DepartmentName = "Technical" },
-new EnquiryForItemModel { ItemName = "Item C", CompanyName = "Company A", DepartmentName = "Technical" }
-};
-private List<string> enquiryfor = new();
-
-private List<UserModel> storedUsers = new()
-{
-new UserModel { FullName = "John Doe", Designation = "Sales Engineer", MailId = "john.doe@comp.com", Status = "Active" },
-new UserModel { FullName = "Jane Smith", Designation = "Sr. Sales Engineer", MailId = "jane.smith@comp.com", Status = "Active" }
-};
-private List<string> concernedSEs = new();
-
-// --- Storage Lists (Simulating Database Storage for new records) ---
-private List<ContactPersonModel> storedContacts = new() {
-new ContactPersonModel { ContactName = "Ali Contractor", CompanyName = "Company A", EmailId = "a@a.com", Category = "Contractor", Designation = "Manager", CategoryOfDesignation = "Technical", Address1 = "123 Main St", FaxNo = "111", Phone = "222", Mobile1 = "333" },
-new ContactPersonModel { ContactName = "Ben Developer", CompanyName = "Company B", EmailId = "b@b.com", Category = "Contractor", Designation = "Director", CategoryOfDesignation = "General", Address1 = "456 Oak Ave", FaxNo = "444", Phone = "555", Mobile1 = "666" }
-};
-private List<CustomerCompanyModel> storedCustomers = new() {
-new CustomerCompanyModel { CompanyName = "Customer X Contracting", Category = "Contractor" },
-new CustomerCompanyModel { CompanyName = "Customer Y Builders", Category = "Contractor" },
-new CustomerCompanyModel { CompanyName = "Client 1 Properties", Category = "Client" },
-new CustomerCompanyModel { CompanyName = "Client 2 Development", Category = "Client" },
-new CustomerCompanyModel { CompanyName = "Consultant A Engineering", Category = "Consultant" },
-new CustomerCompanyModel { CompanyName = "Consultant B Architects", Category = "Consultant" }
-};
-
-// Lists populated from storage (will be updated dynamically)
-private List<string> receivedFroms = new();
-private List<string> existingCustomers = new();
-private List<string> projectNames = new() { "Tower Project", "Bridge Project", "Facility Upgrade" };
-private List<string> clientNames = new();
-private List<string> consultantNames = new();
-
-// --- Autocomplete Filtering Variables ---
-private string? customerSearchTerm;
-private List<string> filteredCustomers = new();
-
-private string? receivedFromSearchTerm;
-private List<string> filteredReceivedFroms = new();
-
-private string? projectSearchTerm;
-private List<string> filteredProjectNames = new();
-
-private string? clientSearchTerm;
-private List<string> filteredClientNames = new();
-
-private string? consultantSearchTerm;
-private List<string> filteredConsultantNames = new();
-
-private string? seSearchTerm;
-private List<string> filteredConcernedSEs = new();
-
-protected override void OnInitialized()
-{
-// Populate initial dropdown lists from stored data
-UpdateAllListsFromStorage();
-FilterSuggestions(); // Initialize filtered lists
-}
-
-private void UpdateAllListsFromStorage()
-{
-receivedFroms = storedContacts.Select(c => c.ContactName).Distinct().ToList();
-existingCustomers = storedCustomers.Where(c => c.Category == "Contractor").Select(c => c.CompanyName).Distinct().ToList();
-clientNames = storedCustomers.Where(c => c.Category == "Client").Select(c => c.CompanyName).Distinct().ToList();
-consultantNames = storedCustomers.Where(c => c.Category == "Consultant").Select(c => c.CompanyName).Distinct().ToList();
-concernedSEs = storedUsers.Select(u => u.FullName).Distinct().ToList();
-enquiryfor = storedEnqItems.Select(i => i.ItemName).Distinct().ToList();
-}
-
-// Function to filter suggestions based on input
-private void FilterSuggestions()
-{
-// Customer Name (Contractor)
-var term = customerSearchTerm?.ToLower() ?? "";
-filteredCustomers = existingCustomers
-.Where(c => c.ToLower().Contains(term))
-.ToList();
-
-// Received From (Contact Person)
-term = receivedFromSearchTerm?.ToLower() ?? "";
-filteredReceivedFroms = receivedFroms
-.Where(c => c.ToLower().Contains(term))
-.ToList();
-
-// Project Name
-term = projectSearchTerm?.ToLower() ?? "";
-filteredProjectNames = projectNames
-.Where(c => c.ToLower().Contains(term))
-.ToList();
-
-// Client Name (Client)
-term = clientSearchTerm?.ToLower() ?? "";
-filteredClientNames = clientNames
-.Where(c => c.ToLower().Contains(term))
-.ToList();
-
-// Consultant Name (Consultant)
-term = consultantSearchTerm?.ToLower() ?? "";
-filteredConsultantNames = consultantNames
-.Where(c => c.ToLower().Contains(term))
-.ToList();
-
-// Concerned SE
-term = seSearchTerm?.ToLower() ?? "";
-filteredConcernedSEs = concernedSEs
-.Where(c => c.ToLower().Contains(term))
-.ToList();
-}
-
-private EnquiryModel enquiryModel = new();
-
-// --- Listbox Tracking Variables ---
-private string? selectedCustomer; // Holds the final selected value for Customer Name
-private List<string> listBoxCustomers = new();
-private string? selectedenqtype;
-private List<string> enqtypelistbox = new();
-private string? selectedenqfor;
-private List<string> enqforlistbox = new();
-private string? selectedSE; // Holds the final selected value for Concerned SE
-
-private List<string> listBoxperson = new();
-private List<string> seListBox = new();
-
-// Variables to hold the currently selected items in the listboxes for deletion
-private List<string> selectedEnqTypeListboxItems = new();
-private List<string> selectedEnqForListboxItems = new();
-private List<string> selectedCustomerListboxItems = new();
-private List<string> selectedReceivedFromListboxItems = new();
-private List<string> selectedSEListboxItems = new();
-
-// --- Autocomplete Input/Selection Handlers ---
-private void HandleCustomerInput(string value)
-{
-customerSearchTerm = value;
-selectedCustomer = value;
-FilterSuggestions();
-}
-private void SelectCustomerSuggestion(string customer)
-{
-customerSearchTerm = customer;
-selectedCustomer = customer;
-filteredCustomers = new(); // Clear suggestions after selection
-}
-
-private void HandleReceivedFromInput(string value)
-{
-receivedFromSearchTerm = value;
-enquiryModel.ReceivedFrom = value;
-FilterSuggestions();
-}
-private void SelectReceivedFromSuggestion(string contact)
-{
-receivedFromSearchTerm = contact;
-enquiryModel.ReceivedFrom = contact;
-filteredReceivedFroms = new();
-}
-
-private void HandleProjectInput(string value)
-{
-projectSearchTerm = value;
-enquiryModel.ProjectName = value;
-FilterSuggestions();
-}
-private void SelectProjectSuggestion(string project)
-{
-projectSearchTerm = project;
-enquiryModel.ProjectName = project;
-filteredProjectNames = new();
-}
-
-private void HandleClientInput(string value)
-{
-clientSearchTerm = value;
-enquiryModel.ClientName = value;
-FilterSuggestions();
-}
-private void SelectClientSuggestion(string client)
-{
-clientSearchTerm = client;
-enquiryModel.ClientName = client;
-filteredClientNames = new();
-}
-
-private void HandleConsultantInput(string value)
-{
-consultantSearchTerm = value;
-enquiryModel.ConsultantName = value;
-FilterSuggestions();
-}
-private void SelectConsultantSuggestion(string consultant)
-{
-consultantSearchTerm = consultant;
-enquiryModel.ConsultantName = consultant;
-filteredConsultantNames = new();
-}
-
-private void HandleSEInput(string value)
-{
-seSearchTerm = value;
-selectedSE = value;
-FilterSuggestions();
-}
-private void SelectSESuggestion(string se)
-{
-seSearchTerm = se;
-selectedSE = se;
-filteredConcernedSEs = new();
-}
-
-// --- Main Form Submission Handler to consolidate listbox data ---
-private async Task HandleMainFormSubmit()
-{
-// Step 1: Transfer Listbox data to the EnquiryModel
-enquiryModel.SelectedEnquiryTypes = enqtypelistbox.ToList();
-enquiryModel.SelectedEnquiryFors = enqforlistbox.ToList();
-enquiryModel.SelectedCustomers = listBoxCustomers.ToList();
-enquiryModel.SelectedReceivedFroms = listBoxperson.ToList();
-enquiryModel.SelectedConcernedSEs = seListBox.ToList();
-
-// Step 2: Set the single-select/autocomplete values in the model
-enquiryModel.ExistingCustomer = selectedCustomer;
-enquiryModel.ConcernedSE = selectedSE;
-
-// --- Placeholder for Save Logic (Console output) ---
-Console.WriteLine("--- Final Enquiry Model Data for Saving ---");
-// --- End of Placeholder ---
-
-await JS.InvokeVoidAsync("alert", "Enquiry data consolidated and ready for save (check console).");
-}
-
-// --- Modal Toggles (Set mode to Add) ---
-private void ToggleNewCustomerInput()
-{
-newCustomerCompany = new CustomerCompanyModel() { Category = "Contractor" };
-modalMode = "Add";
-companyToEdit = null;
-showCustomerModal = true;
-}
-
-private void ToggleNewClientInput()
-{
-newCustomerCompany = new CustomerCompanyModel() { Category = "Client" };
-modalMode = "Add";
-companyToEdit = null;
-showCustomerModal = true;
-}
-
-private void ToggleNewConsultantInput()
-{
-newCustomerCompany = new CustomerCompanyModel() { Category = "Consultant" };
-modalMode = "Add";
-companyToEdit = null;
-showCustomerModal = true;
-}
-
-private void ToggleNewReceivedFromInput()
-{
-newContactPerson = new ContactPersonModel();
-modalMode = "Add";
-contactToEdit = null;
-showContactModal = true;
-}
-
-private void ToggleNewUserModal()
-{
-newUserModel = new UserModel();
-modalMode = "Add";
-userToEdit = null;
-showUserModal = true;
-}
-
-private void ToggleNewEnquiryForModal()
-{
-newEnquiryForItem = new EnquiryForItemModel { ItemName = "New Item " + (storedEnqItems.Count + 1) };
-modalMode = "Add";
-enqItemToEdit = null;
-showEnqForModal = true;
-}
-
-// --- Edit Modal Functions (Set mode to Edit) ---
-private void StartEditContact()
-{
-var person = enquiryModel.ReceivedFrom;
-contactToEdit = storedContacts.FirstOrDefault(c => c.ContactName == person);
-
-if (contactToEdit != null)
-{
-newContactPerson = ContactPersonModel.Clone(contactToEdit);
-modalMode = "Edit";
-showContactModal = true;
-}
-}
-
-private void StartEditCompany()
-{
-string? companyName = null;
-string category = string.Empty;
-
-if (!string.IsNullOrWhiteSpace(enquiryModel.ClientName))
-{
-companyName = enquiryModel.ClientName;
-category = "Client";
-}
-else if (!string.IsNullOrWhiteSpace(enquiryModel.ConsultantName))
-{
-companyName = enquiryModel.ConsultantName;
-category = "Consultant";
-}
-else if (!string.IsNullOrWhiteSpace(selectedCustomer))
-{
-companyName = selectedCustomer;
-category = "Contractor";
-}
-else
-{
-return;
-}
-
-companyToEdit = storedCustomers.FirstOrDefault(c => c.CompanyName == companyName && c.Category == category);
-
-if (companyToEdit != null)
-{
-newCustomerCompany = CustomerCompanyModel.Clone(companyToEdit);
-modalMode = "Edit";
-showCustomerModal = true;
-}
-}
-
-private void StartEditUser()
-{
-userToEdit = storedUsers.FirstOrDefault(u => u.FullName == selectedSE);
-
-if (userToEdit != null)
-{
-newUserModel = UserModel.Clone(userToEdit);
-modalMode = "Edit";
-showUserModal = true;
-}
-}
-
-private void StartEditEnquiryFor()
-{
-enqItemToEdit = storedEnqItems.FirstOrDefault(i => i.ItemName == selectedenqfor);
-
-if (enqItemToEdit != null)
-{
-newEnquiryForItem = EnquiryForItemModel.Clone(enqItemToEdit);
-modalMode = "Edit";
-showEnqForModal = true;
-}
-}
-
-// --- Modal Submission Handlers (Handles Add/Update) ---
-private void HandleNewCompanySubmit()
-{
-if (modalMode == "Add")
-{
-storedCustomers.Add(newCustomerCompany);
-}
-else if (modalMode == "Edit" && companyToEdit != null)
-{
-var index = storedCustomers.IndexOf(companyToEdit);
-if (index != -1)
-{
-storedCustomers[index] = newCustomerCompany;
-}
-}
-
-UpdateAllListsFromStorage();
-FilterSuggestions();
-
-if (newCustomerCompany.Category == "Client")
-{
-enquiryModel.ClientName = newCustomerCompany.CompanyName;
-clientSearchTerm = newCustomerCompany.CompanyName;
-}
-else if (newCustomerCompany.Category == "Consultant")
-{
-enquiryModel.ConsultantName = newCustomerCompany.CompanyName;
-consultantSearchTerm = newCustomerCompany.CompanyName;
-}
-else if (newCustomerCompany.Category == "Contractor")
-{
-selectedCustomer = newCustomerCompany.CompanyName;
-customerSearchTerm = newCustomerCompany.CompanyName;
-}
-
-showCustomerModal = false;
-newCustomerCompany = new CustomerCompanyModel();
-companyToEdit = null;
-}
-
-private void HandleNewContactSubmit()
-{
-if (modalMode == "Add")
-{
-storedContacts.Add(newContactPerson);
-}
-else if (modalMode == "Edit" && contactToEdit != null)
-{
-var index = storedContacts.IndexOf(contactToEdit);
-if (index != -1)
-{
-storedContacts[index] = newContactPerson;
-}
-}
-
-UpdateAllListsFromStorage();
-FilterSuggestions();
-enquiryModel.ReceivedFrom = newContactPerson.ContactName;
-receivedFromSearchTerm = newContactPerson.ContactName;
-if (!listBoxperson.Contains(newContactPerson.ContactName))
-{
-listBoxperson.Add(newContactPerson.ContactName);
-}
-
-showContactModal = false;
-newContactPerson = new ContactPersonModel();
-contactToEdit = null;
-}
-
-private void HandleNewUserSubmit()
-{
-if (!string.IsNullOrWhiteSpace(newUserModel.FullName))
-{
-if (modalMode == "Add")
-{
-storedUsers.Add(newUserModel);
-}
-else if (modalMode == "Edit" && userToEdit != null)
-{
-var index = storedUsers.IndexOf(userToEdit);
-if (index != -1)
-{
-storedUsers[index] = newUserModel;
-}
-}
-
-UpdateAllListsFromStorage();
-FilterSuggestions();
-selectedSE = newUserModel.FullName;
-seSearchTerm = newUserModel.FullName;
-
-if (!seListBox.Contains(selectedSE))
-{
-seListBox.Add(selectedSE);
-}
-
-showUserModal = false;
-newUserModel = new UserModel();
-userToEdit = null;
-}
-}
-
-private void HandleNewEnquiryForSubmit()
-{
-if (string.IsNullOrWhiteSpace(newEnquiryForItem.ItemName))
-{
-newEnquiryForItem.ItemName = $"AutoItem_{DateTime.Now.Ticks}";
-}
-
-if (modalMode == "Add")
-{
-if (!storedEnqItems.Any(i => i.ItemName == newEnquiryForItem.ItemName))
-{
-storedEnqItems.Add(newEnquiryForItem);
-}
-}
-else if (modalMode == "Edit" && enqItemToEdit != null)
-{
-var existingItem = storedEnqItems.FirstOrDefault(i => i.ItemName == enqItemToEdit.ItemName);
-if (existingItem != null)
-{
-existingItem.CompanyName = newEnquiryForItem.CompanyName;
-existingItem.DepartmentName = newEnquiryForItem.DepartmentName;
-existingItem.CommonMailId = newEnquiryForItem.CommonMailId;
-existingItem.CCMailId = newEnquiryForItem.CCMailId;
-existingItem.TextArea1 = newEnquiryForItem.TextArea1;
-existingItem.TextArea2 = newEnquiryForItem.TextArea2;
-}
-}
-
-UpdateAllListsFromStorage();
-selectedenqfor = newEnquiryForItem.ItemName;
-
-if (!enqforlistbox.Contains(selectedenqfor))
-{
-enqforlistbox.Add(selectedenqfor);
-}
-
-showEnqForModal = false;
-newEnquiryForItem = new EnquiryForItemModel();
-enqItemToEdit = null;
-}
-
-
-// --- Listbox Add/Remove Handlers ---
-
-// Received From Listbox
-private void AddToListBox()
-{
-if (!string.IsNullOrWhiteSpace(enquiryModel.ReceivedFrom) && !listBoxperson.Contains(enquiryModel.ReceivedFrom))
-{
-listBoxperson.Add(enquiryModel.ReceivedFrom);
-}
-}
-
-private void RemoveFromListBox()
-{
-foreach (var item in selectedReceivedFromListboxItems.ToList())
-{
-listBoxperson.Remove(item);
-}
-selectedReceivedFromListboxItems.Clear();
-}
-
-// Enquiry Type Listbox
-private void AddToListBoxenqtype()
-{
-if (!string.IsNullOrWhiteSpace(selectedenqtype) && !enqtypelistbox.Contains(selectedenqtype))
-{
-enqtypelistbox.Add(selectedenqtype);
-}
-}
-
-private void RemoveFromListBoxenqtype()
-{
-foreach (var item in selectedEnqTypeListboxItems.ToList())
-{
-enqtypelistbox.Remove(item);
-}
-selectedEnqTypeListboxItems.Clear();
-}
-
-// Enquiry For Listbox
-private void AddToListBoxenqfor()
-{
-if (!string.IsNullOrWhiteSpace(selectedenqfor) && !enqforlistbox.Contains(selectedenqfor))
-{
-enqforlistbox.Add(selectedenqfor);
-}
-}
-
-private void RemoveFromListBoxenqfor()
-{
-foreach (var item in selectedEnqForListboxItems.ToList())
-{
-enqforlistbox.Remove(item);
-}
-selectedEnqForListboxItems.Clear();
-}
-
-// Concerned SE Listbox
-private void AddSEToListBoxToselectedSE()
-{
-if (!string.IsNullOrWhiteSpace(selectedSE) && !seListBox.Contains(selectedSE))
-{
-seListBox.Add(selectedSE);
-}
-}
-
-private void RemoveSEFromListBoxselectedSE()
-{
-foreach (var item in selectedSEListboxItems.ToList())
-{
-seListBox.Remove(item);
-}
-selectedSEListboxItems.Clear();
-}
-
-// Customer Name Listbox
-private void AddSelectedCustomerToListBox()
-{
-if (!string.IsNullOrWhiteSpace(selectedCustomer) && !listBoxCustomers.Contains(selectedCustomer))
-{
-listBoxCustomers.Add(selectedCustomer);
-}
-}
-
-private void RemoveSelectedCustomerFromListBox()
-{
-foreach (var item in selectedCustomerListboxItems.ToList())
-{
-listBoxCustomers.Remove(item);
-}
-selectedCustomerListboxItems.Clear();
-}
-
-// --- Listbox Selection Handlers (Using fully qualified ChangeEventArgs) ---
-private void HandleEnqTypeListBoxSelection(Microsoft.AspNetCore.Components.ChangeEventArgs e) => selectedEnqTypeListboxItems = (e.Value as string[] ?? Array.Empty<string>()).ToList();
-private void HandleEnqForListBoxSelection(Microsoft.AspNetCore.Components.ChangeEventArgs e) => selectedEnqForListboxItems = (e.Value as string[] ?? Array.Empty<string>()).ToList();
-private void HandleCustomerListBoxSelection(Microsoft.AspNetCore.Components.ChangeEventArgs e) => selectedCustomerListboxItems = (e.Value as string[] ?? Array.Empty<string>()).ToList();
-private void HandleReceivedFromListBoxSelection(Microsoft.AspNetCore.Components.ChangeEventArgs e) => selectedReceivedFromListboxItems = (e.Value as string[] ?? Array.Empty<string>()).ToList();
-private void HandleSEListBoxSelection(Microsoft.AspNetCore.Components.ChangeEventArgs e) => selectedSEListboxItems = (e.Value as string[] ?? Array.Empty<string>()).ToList();
-
-
-// --- Model Classes ---
-public class EnquiryModel
-{
-public string? SourceOfInfo { get; set; }
-public DateTime? EnquiryDate { get; set; } = DateTime.Now;
-public DateTime? DueOn { get; set; } = DateTime.Now.AddDays(7);
-public string? ReceivedFrom { get; set; }
-public string? ExistingCustomer { get; set; }
-public string? ProjectName { get; set; }
-public string? ClientName { get; set; }
-public string? ConsultantName { get; set; }
-public string? ConcernedSE { get; set; }
-public DateTime? SiteVisitDate { get; set; }
-public string? DetailsOfEnquiry { get; set; }
-public string? DocumentsReceived { get; set; }
-public string? Remark { get; set; }
-public bool ceosign { get; set; }
-public bool AutoAck { get; set; }
-public bool hardcopy { get; set; }
-public bool drawing { get; set; }
-public bool dvd { get; set; }
-public bool spec { get; set; }
-public bool eqpschedule { get; set; }
-
-public List<string> SelectedEnquiryTypes { get; set; } = new List<string>();
-public List<string> SelectedEnquiryFors { get; set; } = new List<string>();
-public List<string> SelectedCustomers { get; set; } = new List<string>();
-public List<string> SelectedReceivedFroms { get; set; } = new List<string>();
-public List<string> SelectedConcernedSEs { get; set; } = new List<string>();
-}
-
-public class EnquiryForItemModel
-{
-public string ItemName { get; set; } = string.Empty;
-public string CompanyName { get; set; } = string.Empty;
-public string DepartmentName { get; set; } = string.Empty;
-public string CommonMailId { get; set; } = string.Empty;
-public string CCMailId { get; set; } = string.Empty;
-public string TextArea1 { get; set; } = string.Empty;
-public string TextArea2 { get; set; } = string.Empty;
-
-public static EnquiryForItemModel Clone(EnquiryForItemModel original)
-{
-return new EnquiryForItemModel
-{
-ItemName = original.ItemName,
-CompanyName = original.CompanyName,
-DepartmentName = original.DepartmentName,
-CommonMailId = original.CommonMailId,
-CCMailId = original.CCMailId,
-TextArea1 = original.TextArea1,
-TextArea2 = original.TextArea2
-};
-}
-}
-
-public class ContactPersonModel
-{
-public string Category { get; set; } = "Contractor";
-public string CompanyName { get; set; } = string.Empty;
-public string ContactName { get; set; } = string.Empty;
-public string Designation { get; set; } = "Not Known";
-public string CategoryOfDesignation { get; set; } = "General";
-public string Address1 { get; set; } = string.Empty;
-public string Address2 { get; set; } = string.Empty;
-public string FaxNo { get; set; } = string.Empty;
-public string Phone { get; set; } = string.Empty;
-public string Mobile1 { get; set; } = string.Empty;
-public string Mobile2 { get; set; } = string.Empty;
-public string EmailId { get; set; } = string.Empty;
-
-public static ContactPersonModel Clone(ContactPersonModel original)
-{
-return new ContactPersonModel
-{
-Category = original.Category,
-CompanyName = original.CompanyName,
-ContactName = original.ContactName,
-Designation = original.Designation,
-CategoryOfDesignation = original.CategoryOfDesignation,
-Address1 = original.Address1,
-Address2 = original.Address2,
-FaxNo = original.FaxNo,
-Phone = original.Phone,
-Mobile1 = original.Mobile1,
-Mobile2 = original.Mobile2,
-EmailId = original.EmailId
-};
-}
-}
-
-public class CustomerCompanyModel
-{
-public string Category { get; set; } = "Contractor";
-public string CompanyName { get; set; } = string.Empty;
-public string Address1 { get; set; } = string.Empty;
-public string Address2 { get; set; } = string.Empty;
-public string Rating { get; set; } = "5";
-public string Type { get; set; } = "MEP";
-public string FaxNo { get; set; } = string.Empty;
-public string Phone1 { get; set; } = string.Empty;
-public string Phone2 { get; set; } = string.Empty;
-public string EmailId { get; set; } = string.Empty;
-public string Website { get; set; } = string.Empty;
-
-public static CustomerCompanyModel Clone(CustomerCompanyModel original)
-{
-return new CustomerCompanyModel
-{
-Category = original.Category,
-CompanyName = original.CompanyName,
-Address1 = original.Address1,
-Address2 = original.Address2,
-Rating = original.Rating,
-Type = original.Type,
-FaxNo = original.FaxNo,
-Phone1 = original.Phone1,
-Phone2 = original.Phone2,
-EmailId = original.EmailId,
-Website = original.Website
-};
-}
-}
-
-public class UserModel
-{
-public string FullName { get; set; } = string.Empty;
-public string CompanyName { get; set; } = "Your Company";
-public string MailId { get; set; } = string.Empty;
-public string LoginPassword { get; set; } = string.Empty;
-public string Status { get; set; } = "Active";
-public string Designation { get; set; } = "Sales Engineer";
-public string Department { get; set; } = "Sales";
-public string Role { get; set; } = "Enquiry";
-
-public static UserModel Clone(UserModel original)
-{
-return new UserModel
-{
-FullName = original.FullName,
-CompanyName = original.CompanyName,
-MailId = original.MailId,
-LoginPassword = original.LoginPassword,
-Status = original.Status,
-Designation = original.Designation,
-Department = original.Department,
-Role = original.Role
-};
-}
-}
-}
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Inject the JavaScript function to control datalist visibility (shows suggestions after 2 characters)
+            await JSRuntime.InvokeVoidAsync("eval", @"
+                window.toggleDataList = (inputId, datalistId, inputValue) => {
+                    const inputElement = document.getElementById(inputId);
+                    if (inputElement) {
+                        const value = inputValue ? inputValue.toString() : '';
+                        if (value.length >= 2) {
+                            inputElement.setAttribute('list', datalistId);
+                        } else {
+                            inputElement.removeAttribute('list');
+                        }
+                    }
+                };
+            ");
+        }
+    }
+
+    [Inject]
+    private IJSRuntime JS { get; set; } = default!;
+
+    // --- Modal State Variables ---
+    private bool showContactModal = false;
+    private bool showCustomerModal = false;
+    private bool showUserModal = false;
+    private bool showEnqForModal = false;
+
+    private ContactPersonModel newContactPerson = new();
+    private CustomerCompanyModel newCustomerCompany = new();
+    private UserModel newUserModel = new();
+    private EnquiryForItemModel newEnquiryForItem = new();
+
+    private ContactPersonModel? contactToEdit = null;
+    private CustomerCompanyModel? companyToEdit = null;
+    private UserModel? userToEdit = null;
+    private EnquiryForItemModel? enqItemToEdit = null;
+    private string modalMode = "Add";
+
+    // --- State Variables for Enquiry For Email Listboxes ---
+    private string newCommonMailEntry = string.Empty;
+    private List<string> selectedCommonMailListboxItems = new();
+    private string newCCMailEntry = string.Empty;
+    private List<string> selectedCCMailListboxItems = new();
+
+
+    // --- Data Lists (Sample Data) ---
+    private List<string> allEmailAddresses = new()
+    {
+        "john.doe@example.com",
+        "jane.smith@example.com",
+        "sales@companyA.com",
+        "technical@companyB.com",
+        "accounts@companyB.com",
+        "support@globalcorp.net",
+        "elect_common@a.com",
+        "elect_cc@a.com",
+        "mech_common@b.com",
+        "mech_cc1@b.com",
+        "mech_cc2@b.com"
+    };
+
+    private List<string> sourceOfInfos = new() { "Email", "Phone", "Tender Board", "Customer Visit", "Cold visit by us", "Website", "Fax", "Thru top management", "News Paper" };
+    private List<string> enquirytype = new() { "New Tender", "Re-Tender", "Job in hand", "Variation / Change order", "Supply only", "Maintenance", "Retrofit", "Upgradation", "Refurbishment", "Service", "Hiring", "Renting", "Facility Management", "Demo/Mock up", "Design" };
+    private List<string> projectNames = new() { "Project Alpha", "Project Beta", "Project Gamma", "Project Delta" };
+
+    private List<EnquiryForItemModel> storedEnqItems = new()
+    {
+        new EnquiryForItemModel {
+            ItemName = "Item A - Electrical",
+            CompanyName = "Company A",
+            DepartmentName = "Sales",
+            CommonMailIds = new List<string> { "elect_common@a.com" },
+            CCMailIds = new List<string> { "elect_cc@a.com" }
+        },
+        new EnquiryForItemModel {
+            ItemName = "Item B - Mechanical",
+            CompanyName = "Company B",
+            DepartmentName = "Technical",
+            CommonMailIds = new List<string> { "mech_common@b.com" },
+            CCMailIds = new List<string> { "mech_cc1@b.com", "mech_cc2@b.com" }
+        },
+        new EnquiryForItemModel {
+            ItemName = "Item C - Civil",
+            CompanyName = "Company A",
+            DepartmentName = "Technical",
+            CommonMailIds = new List<string>(),
+            CCMailIds = new List<string>()
+        }
+    };
+    private List<string> enquiryfor = new();
+
+    private List<UserModel> storedUsers = new()
+    {
+        new UserModel { FullName = "SE1 - John Doe", Designation = "Sales Engineer", MailId = "se1@comp.com", Status = "Active" },
+        new UserModel { FullName = "SE2 - Jane Smith", Designation = "Sr. Sales Engineer", MailId = "se2@comp.com", Status = "Active" },
+        new UserModel { FullName = "SE3 - Bob Johnson", Designation = "Sales Engineer", MailId = "se3@comp.com", Status = "Inactive" }
+    };
+    private List<string> concernedSEs = new();
+
+    // --- Storage Lists (Simulating Database Storage for new records) ---
+    private List<ContactPersonModel> storedContacts = new() {
+        new ContactPersonModel { ContactName = "Person A - Manager", CompanyName = "Customer X Ltd", EmailId = "pa@custx.com", Category = "Contractor", Designation = "Manager", CategoryOfDesignation = "Technical", Address1 = "123 Main St", FaxNo = "111", Phone = "222", Mobile1 = "333" },
+        new ContactPersonModel { ContactName = "Person B - Director", CompanyName = "Customer Y Corp", EmailId = "pb@custy.com", Category = "Contractor", Designation = "Director", CategoryOfDesignation = "General", Address1 = "456 Oak Ave", FaxNo = "444", Phone = "555", Mobile1 = "666" },
+        new ContactPersonModel { ContactName = "Person C - Engineer", CompanyName = "Customer X Ltd", EmailId = "pc@custx.com", Category = "Contractor", Designation = "Engineer", CategoryOfDesignation = "Technical", Address1 = "789 Pine Rd", FaxNo = "777", Phone = "888", Mobile1 = "999" }
+    };
+    private List<CustomerCompanyModel> storedCustomers = new() {
+        new CustomerCompanyModel { CompanyName = "Customer X Ltd", Category = "Contractor", Status = "Active" },
+        new CustomerCompanyModel { CompanyName = "Customer Y Corp", Category = "Contractor", Status = "Active" },
+        new CustomerCompanyModel { CompanyName = "Client 1 Global", Category = "Client", Status = "Active" },
+        new CustomerCompanyModel { CompanyName = "Client 2 National", Category = "Client", Status = "Inactive" },
+        new CustomerCompanyModel { CompanyName = "Consultant A Design", Category = "Consultant", Status = "Active" },
+        new CustomerCompanyModel { CompanyName = "Consultant B Services", Category = "Consultant", Status = "Active" }
+    };
+
+    // Lists populated from storage (will be updated dynamically)
+    private List<string> receivedFroms = new();
+    private List<string> existingCustomers = new();
+    private List<string> clientNames = new();
+    private List<string> consultantNames = new();
+
+    protected override void OnInitialized()
+    {
+        // Populate initial dropdown lists from stored data
+        UpdateAllListsFromStorage();
+    }
+
+    private void UpdateAllListsFromStorage()
+    {
+        receivedFroms = storedContacts.Select(c => c.ContactName).Distinct().ToList();
+        // Filter dropdowns to only show Active status, but allow all to be edited
+        existingCustomers = storedCustomers.Where(c => c.Category == "Contractor" && c.Status == "Active").Select(c => c.CompanyName).Distinct().ToList();
+        clientNames = storedCustomers.Where(c => c.Category == "Client" && c.Status == "Active").Select(c => c.CompanyName).Distinct().ToList();
+        consultantNames = storedCustomers.Where(c => c.Category == "Consultant" && c.Status == "Active").Select(c => c.CompanyName).Distinct().ToList();
+        concernedSEs = storedUsers.Where(u => u.Status == "Active").Select(u => u.FullName).Distinct().ToList();
+        enquiryfor = storedEnqItems.Select(i => i.ItemName).Distinct().ToList();
+    }
+
+
+    private EnquiryModel enquiryModel = new();
+
+    // --- Listbox Tracking Variables ---
+    private string? selectedCustomer;
+    private List<string> listBoxCustomers = new();
+    private string? selectedperson; // Not used directly, but kept for clarity if needed.
+    private List<string> listBoxperson = new();
+    private string? selectedSE;
+    private List<string> seListBox = new();
+    private string? selectedenqtype;
+    private List<string> enqtypelistbox = new();
+    private string? selectedenqfor;
+    private List<string> enqforlistbox = new();
+
+    // Variables to hold the currently selected items in the listboxes for deletion
+    private List<string> selectedEnqTypeListboxItems = new();
+    private List<string> selectedEnqForListboxItems = new();
+    private List<string> selectedCustomerListboxItems = new();
+    private List<string> selectedReceivedFromListboxItems = new();
+    private List<string> selectedSEListboxItems = new();
+
+
+    // --- Core Synchronization Logic ---
+    private void HandleCustomerSelection(string? companyName)
+    {
+        selectedCustomer = companyName;
+
+        // Ensure we only proceed if a valid company name is selected
+        if (!string.IsNullOrWhiteSpace(selectedCustomer))
+        {
+            // 1. Find ALL active contacts associated with the selected company
+            // In a real app, you might also filter by contact status if applicable.
+            var contacts = storedContacts
+                .Where(c => c.CompanyName == selectedCustomer)
+                .Select(c => c.ContactName)
+                .ToList();
+
+            // 2. Clear existing received from listbox to prepare for the new customer's contacts
+            listBoxperson.Clear();
+
+            if (contacts.Any())
+            {
+                // 3. Add all associated contacts to the Received From listbox
+                foreach (var contact in contacts)
+                {
+                    listBoxperson.Add(contact);
+                }
+
+                // 4. Set the main single ReceivedFrom input to the *first* contact found
+                enquiryModel.ReceivedFrom = contacts.First();
+            }
+            else
+            {
+                // Clear the single ReceivedFrom input if no contacts are found
+                enquiryModel.ReceivedFrom = string.Empty;
+            }
+        }
+        else
+        {
+            // If customer is unselected/cleared, clear both the main received from input and the listbox
+            enquiryModel.ReceivedFrom = string.Empty;
+            listBoxperson.Clear();
+        }
+    }
+
+
+    // --- Model Classes (omitted for brevity, assume they are correct) ---
+    // ... (Your Model Classes: EnquiryModel, EnquiryForItemModel, ContactPersonModel, CustomerCompanyModel, UserModel are here)
+    // --- Model Classes ---
+    public class EnquiryModel
+    {
+        public string? SourceOfInfo { get; set; }
+        public DateTime? EnquiryDate { get; set; } = DateTime.Now;
+        public DateTime? DueOn { get; set; } = DateTime.Now.AddDays(7);
+        public string? ReceivedFrom { get; set; }
+        public string? ExistingCustomer { get; set; }
+        public string? ProjectName { get; set; }
+        public string? ClientName { get; set; }
+        public string? ConsultantName { get; set; }
+        public string? ConcernedSE { get; set; }
+        public DateTime? SiteVisitDate { get; set; }
+        public string? DetailsOfEnquiry { get; set; }
+        public string? DocumentsReceived { get; set; }
+        public string? Remark { get; set; }
+        public bool ceosign { get; set; }
+        public bool AutoAck { get; set; }
+        public bool hardcopy { get; set; }
+        public bool drawing { get; set; }
+        public bool dvd { get; set; }
+        public bool spec { get; set; }
+        public bool eqpschedule { get; set; }
+
+        public List<string> SelectedEnquiryTypes { get; set; } = new List<string>();
+        public List<string> SelectedEnquiryFors { get; set; } = new List<string>();
+        public List<string> SelectedCustomers { get; set; } = new List<string>();
+        public List<string> SelectedReceivedFroms { get; set; } = new List<string>();
+        public List<string> SelectedConcernedSEs { get; set; } = new List<string>();
+    }
+
+    public class EnquiryForItemModel
+    {
+        public string ItemName { get; set; } = string.Empty;
+
+        public string CompanyName { get; set; } = string.Empty;
+        public string DepartmentName { get; set; } = string.Empty;
+        public List<string> CommonMailIds { get; set; } = new List<string>();
+        public List<string> CCMailIds { get; set; } = new List<string>();
+
+        public static EnquiryForItemModel Clone(EnquiryForItemModel original)
+        {
+            return new EnquiryForItemModel
+            {
+                ItemName = original.ItemName,
+                CompanyName = original.CompanyName,
+                DepartmentName = original.DepartmentName,
+                // Ensure lists are cloned
+                CommonMailIds = original.CommonMailIds.ToList(),
+                CCMailIds = original.CCMailIds.ToList()
+            };
+        }
+    }
+
+    public class ContactPersonModel
+    {
+        public string Category { get; set; } = "Contractor";
+        public string CompanyName { get; set; } = string.Empty;
+        public string ContactName { get; set; } = string.Empty;
+        public string Designation { get; set; } = "Not Known";
+        public string CategoryOfDesignation { get; set; } = "General";
+        public string Address1 { get; set; } = string.Empty;
+        public string Address2 { get; set; } = string.Empty;
+        public string FaxNo { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Mobile1 { get; set; } = string.Empty;
+        public string Mobile2 { get; set; } = string.Empty;
+        public string EmailId { get; set; } = string.Empty;
+
+        public static ContactPersonModel Clone(ContactPersonModel original)
+        {
+            return new ContactPersonModel
+            {
+                Category = original.Category,
+                CompanyName = original.CompanyName,
+                ContactName = original.ContactName,
+                Designation = original.Designation,
+                CategoryOfDesignation = original.CategoryOfDesignation,
+                Address1 = original.Address1,
+                Address2 = original.Address2,
+                FaxNo = original.FaxNo,
+                Phone = original.Phone,
+                Mobile1 = original.Mobile1,
+                Mobile2 = original.Mobile2,
+                EmailId = original.EmailId
+            };
+        }
+    }
+
+    public class CustomerCompanyModel
+    {
+        public string Category { get; set; } = "Contractor";
+        public string CompanyName { get; set; } = string.Empty;
+        public string Address1 { get; set; } = string.Empty;
+        public string Address2 { get; set; } = string.Empty;
+        public string Rating { get; set; } = "5";
+        public string Type { get; set; } = "MEP";
+        public string FaxNo { get; set; } = string.Empty;
+        public string Phone1 { get; set; } = string.Empty;
+        public string Phone2 { get; set; } = string.Empty;
+        public string EmailId { get; set; } = string.Empty;
+        public string Website { get; set; } = string.Empty;
+        public string Status { get; set; } = "Active"; // <-- ADDED STATUS
+
+        public static CustomerCompanyModel Clone(CustomerCompanyModel original)
+        {
+            return new CustomerCompanyModel
+            {
+                Category = original.Category,
+                CompanyName = original.CompanyName,
+                Address1 = original.Address1,
+                Address2 = original.Address2,
+                Rating = original.Rating,
+                Type = original.Type,
+                FaxNo = original.FaxNo,
+                Phone1 = original.Phone1,
+                Phone2 = original.Phone2,
+                EmailId = original.EmailId,
+                Website = original.Website,
+                Status = original.Status
+            };
+        }
+    }
+
+    public class UserModel
+    {
+        public string FullName { get; set; } = string.Empty;
+        public string CompanyName { get; set; } = "Your Company";
+        public string MailId { get; set; } = string.Empty;
+        public string LoginPassword { get; set; } = string.Empty;
+        public string Status { get; set; } = "Active";
+        public string Designation { get; set; } = "Sales Engineer";
+        public string Department { get; set; } = "Sales";
+        public string Role { get; set; } = "Enquiry"; // The new list includes 'Reports'
+
+        public static UserModel Clone(UserModel original)
+        {
+            return new UserModel
+            {
+                FullName = original.FullName,
+                CompanyName = original.CompanyName,
+                MailId = original.MailId,
+                LoginPassword = original.LoginPassword,
+                Status = original.Status,
+                Designation = original.Designation,
+                Department = original.Department,
+                Role = original.Role
+            };
+        }
+    }
+
+
+    // --- Listbox Selection Handlers (Using fully qualified ChangeEventArgs) ---
+    private void HandleEnqTypeListBoxSelection(Microsoft.AspNetCore.Components.ChangeEventArgs e) => selectedEnqTypeListboxItems = (e.Value as string[] ?? Array.Empty<string>()).ToList();
+    private void HandleEnqForListBoxSelection(Microsoft.AspNetCore.Components.ChangeEventArgs e) => selectedEnqForListboxItems = (e.Value as string[] ?? Array.Empty<string>()).ToList();
+    private void HandleCustomerListBoxSelection(Microsoft.AspNetCore.Components.ChangeEventArgs e) => selectedCustomerListboxItems = (e.Value as string[] ?? Array.Empty<string>()).ToList();
+    private void HandleReceivedFromListBoxSelection(Microsoft.AspNetCore.Components.ChangeEventArgs e) => selectedReceivedFromListboxItems = (e.Value as string[] ?? Array.Empty<string>()).ToList();
+    private void HandleSEListBoxSelection(Microsoft.AspNetCore.Components.ChangeEventArgs e) => selectedSEListboxItems = (e.Value as string[] ?? Array.Empty<string>()).ToList();
+
+    // --- NEW Listbox Selection Handlers for Email fields in EnqFor Modal ---
+    private void HandleCommonMailListBoxSelection(Microsoft.AspNetCore.Components.ChangeEventArgs e) => selectedCommonMailListboxItems = (e.Value as string[] ?? Array.Empty<string>()).ToList();
+    private void HandleCCMailListBoxSelection(Microsoft.AspNetCore.Components.ChangeEventArgs e) => selectedCCMailListboxItems = (e.Value as string[] ?? Array.Empty<string>()).ToList();
+
+
+    // --- Modal Toggles (Set mode to Add) ---
+    private void ToggleNewCustomerInput()
+    {
+        newCustomerCompany = new CustomerCompanyModel() { Category = "Contractor" };
+        modalMode = "Add";
+        companyToEdit = null;
+        showCustomerModal = true;
+    }
+
+    private void ToggleNewClientInput()
+    {
+        newCustomerCompany = new CustomerCompanyModel() { Category = "Client" };
+        modalMode = "Add";
+        companyToEdit = null;
+        showCustomerModal = true;
+    }
+
+    private void ToggleNewConsultantInput()
+    {
+        newCustomerCompany = new CustomerCompanyModel() { Category = "Consultant" };
+        modalMode = "Add";
+        companyToEdit = null;
+        showCustomerModal = true;
+    }
+
+    private void ToggleNewReceivedFromInput()
+    {
+        newContactPerson = new ContactPersonModel();
+        modalMode = "Add";
+        contactToEdit = null;
+        showContactModal = true;
+    }
+
+    private void ToggleNewUserModal()
+    {
+        newUserModel = new UserModel();
+        modalMode = "Add";
+        userToEdit = null;
+        showUserModal = true;
+    }
+
+    // Toggle for Enquiry For Modal (Add Mode)
+    private void ToggleNewEnquiryForModal()
+    {
+        newEnquiryForItem = new EnquiryForItemModel { ItemName = "New Item " + (storedEnqItems.Count + 1) };
+        modalMode = "Add";
+        enqItemToEdit = null;
+        newCommonMailEntry = string.Empty; // Reset temporary input
+        newCCMailEntry = string.Empty;     // Reset temporary input
+        showEnqForModal = true;
+    }
+
+
+    // --- Edit Modal Functions (Set mode to Edit) ---
+    private void StartEditContact()
+    {
+        var person = enquiryModel.ReceivedFrom;
+        contactToEdit = storedContacts.FirstOrDefault(c => c.ContactName == person);
+
+        if (contactToEdit != null)
+        {
+            newContactPerson = ContactPersonModel.Clone(contactToEdit);
+            modalMode = "Edit";
+            showContactModal = true;
+        }
+    }
+
+    private void StartEditCompany()
+    {
+        string? companyName = null;
+        string category = string.Empty;
+
+        if (!string.IsNullOrWhiteSpace(enquiryModel.ClientName))
+        {
+            companyName = enquiryModel.ClientName;
+            category = "Client";
+        }
+        else if (!string.IsNullOrWhiteSpace(enquiryModel.ConsultantName))
+        {
+            companyName = enquiryModel.ConsultantName;
+            category = "Consultant";
+        }
+        else if (!string.IsNullOrWhiteSpace(selectedCustomer))
+        {
+            companyName = selectedCustomer;
+            category = "Contractor";
+        }
+        else
+        {
+            return;
+        }
+
+        // Find the original item to edit, even if its status is Inactive
+        companyToEdit = storedCustomers.FirstOrDefault(c => c.CompanyName == companyName && c.Category == category);
+
+        if (companyToEdit != null)
+        {
+            newCustomerCompany = CustomerCompanyModel.Clone(companyToEdit);
+            modalMode = "Edit";
+            showCustomerModal = true;
+        }
+    }
+
+    private void StartEditUser()
+    {
+        userToEdit = storedUsers.FirstOrDefault(u => u.FullName == selectedSE);
+
+        if (userToEdit != null)
+        {
+            newUserModel = UserModel.Clone(userToEdit);
+            modalMode = "Edit";
+            showUserModal = true;
+        }
+    }
+
+    // Start Edit Enquiry For Function
+    private void StartEditEnquiryFor()
+    {
+        enqItemToEdit = storedEnqItems.FirstOrDefault(i => i.ItemName == selectedenqfor);
+
+        if (enqItemToEdit != null)
+        {
+            newEnquiryForItem = EnquiryForItemModel.Clone(enqItemToEdit);
+            modalMode = "Edit";
+            newCommonMailEntry = string.Empty; // Reset temporary input
+            newCCMailEntry = string.Empty;     // Reset temporary input
+            showEnqForModal = true;
+        }
+    }
+
+
+    // --- Modal Submission Handlers (Handles Add/Update) ---
+    private void HandleNewCompanySubmit()
+    {
+        if (modalMode == "Add")
+        {
+            storedCustomers.Add(newCustomerCompany);
+        }
+        else if (modalMode == "Edit" && companyToEdit != null)
+        {
+            var index = storedCustomers.IndexOf(companyToEdit);
+            if (index != -1)
+            {
+                storedCustomers[index] = newCustomerCompany;
+            }
+        }
+
+        UpdateAllListsFromStorage(); // Refresh dropdown lists
+
+        // Update main form input with the new/edited value if it's active
+        if (newCustomerCompany.Status == "Active")
+        {
+            if (newCustomerCompany.Category == "Client") enquiryModel.ClientName = newCustomerCompany.CompanyName;
+            else if (newCustomerCompany.Category == "Consultant") enquiryModel.ConsultantName = newCustomerCompany.CompanyName;
+            else if (newCustomerCompany.Category == "Contractor")
+            {
+                // If a new customer is added or an existing one edited, run the selection logic
+                HandleCustomerSelection(newCustomerCompany.CompanyName);
+            }
+        }
+
+
+        showCustomerModal = false;
+        newCustomerCompany = new CustomerCompanyModel();
+        companyToEdit = null;
+    }
+
+    private void HandleNewContactSubmit()
+    {
+        if (modalMode == "Add")
+        {
+            storedContacts.Add(newContactPerson);
+        }
+        else if (modalMode == "Edit" && contactToEdit != null)
+        {
+            var index = storedContacts.IndexOf(contactToEdit);
+            if (index != -1)
+            {
+                storedContacts[index] = newContactPerson;
+            }
+        }
+
+        UpdateAllListsFromStorage();
+        enquiryModel.ReceivedFrom = newContactPerson.ContactName;
+        // Also run the Customer selection logic again to refresh the contacts listbox
+        if (selectedCustomer == newContactPerson.CompanyName)
+        {
+            HandleCustomerSelection(selectedCustomer);
+        }
+        else if (!listBoxperson.Contains(newContactPerson.ContactName))
+        {
+            listBoxperson.Add(newContactPerson.ContactName);
+        }
+
+        showContactModal = false;
+        newContactPerson = new ContactPersonModel();
+        contactToEdit = null;
+    }
+
+    private void HandleNewUserSubmit()
+    {
+        if (!string.IsNullOrWhiteSpace(newUserModel.FullName))
+        {
+            if (modalMode == "Add")
+            {
+                storedUsers.Add(newUserModel);
+            }
+            else if (modalMode == "Edit" && userToEdit != null)
+            {
+                var index = storedUsers.IndexOf(userToEdit);
+                if (index != -1)
+                {
+                    storedUsers[index] = newUserModel;
+                }
+            }
+
+            UpdateAllListsFromStorage();
+
+            // Only update the main form if the user is active
+            if (newUserModel.Status == "Active")
+            {
+                selectedSE = newUserModel.FullName;
+
+                if (!seListBox.Contains(selectedSE))
+                {
+                    seListBox.Add(selectedSE);
+                }
+            }
+
+            showUserModal = false;
+            newUserModel = new UserModel();
+            userToEdit = null;
+        }
+    }
+
+    // Handle Enquiry For Submission (using new fields)
+    private void HandleNewEnquiryForSubmit()
+    {
+        if (string.IsNullOrWhiteSpace(newEnquiryForItem.ItemName))
+        {
+            newEnquiryForItem.ItemName = $"AutoItem_{DateTime.Now.Ticks}";
+        }
+
+        if (modalMode == "Add")
+        {
+            if (!storedEnqItems.Any(i => i.ItemName == newEnquiryForItem.ItemName))
+            {
+                storedEnqItems.Add(newEnquiryForItem);
+            }
+        }
+        else if (modalMode == "Edit" && enqItemToEdit != null)
+        {
+            var existingItem = storedEnqItems.FirstOrDefault(i => i.ItemName == enqItemToEdit.ItemName);
+            if (existingItem != null)
+            {
+                existingItem.CompanyName = newEnquiryForItem.CompanyName;
+                existingItem.DepartmentName = newEnquiryForItem.DepartmentName;
+
+                // Transfer the List<string> properties from the modal model
+                existingItem.CommonMailIds = newEnquiryForItem.CommonMailIds.ToList();
+                existingItem.CCMailIds = newEnquiryForItem.CCMailIds.ToList();
+            }
+        }
+
+        UpdateAllListsFromStorage();
+        selectedenqfor = newEnquiryForItem.ItemName;
+
+        if (!enqforlistbox.Contains(selectedenqfor))
+        {
+            enqforlistbox.Add(selectedenqfor);
+        }
+
+        showEnqForModal = false;
+        newEnquiryForItem = new EnquiryForItemModel();
+        enqItemToEdit = null;
+        newCommonMailEntry = string.Empty; // Clear new email input
+        newCCMailEntry = string.Empty; // Clear new email input
+    }
+
+
+    // --- Main Form Submission Handler to consolidate listbox data ---
+    private async Task HandleMainFormSubmit()
+    {
+        // Step 1: Transfer Listbox data to the EnquiryModel
+        enquiryModel.SelectedEnquiryTypes = enqtypelistbox.ToList();
+        enquiryModel.SelectedEnquiryFors = enqforlistbox.ToList();
+        enquiryModel.SelectedCustomers = listBoxCustomers.ToList();
+        enquiryModel.SelectedReceivedFroms = listBoxperson.ToList();
+        enquiryModel.SelectedConcernedSEs = seListBox.ToList();
+
+        // Step 2: Set the single-select dropdown values in the model
+        enquiryModel.ExistingCustomer = selectedCustomer;
+        enquiryModel.ConcernedSE = selectedSE;
+
+        Console.WriteLine("--- Final Enquiry Model Data for Saving ---");
+        // NOTE: Here you would typically call a service to save enquiryModel to your database.
+
+        await JS.InvokeVoidAsync("alert", "Enquiry data consolidated and ready for save (check console).");
+    }
+
+    // --- Listbox Add/Remove Handlers (Main Form) ---
+
+    // Received From Listbox
+    private void AddToListBox()
+    {
+        if (!string.IsNullOrWhiteSpace(enquiryModel.ReceivedFrom) && !listBoxperson.Contains(enquiryModel.ReceivedFrom))
+        {
+            listBoxperson.Add(enquiryModel.ReceivedFrom);
+        }
+    }
+
+    private void RemoveFromListBox()
+    {
+        foreach (var item in selectedReceivedFromListboxItems.ToList())
+        {
+            listBoxperson.Remove(item);
+        }
+        selectedReceivedFromListboxItems.Clear();
+    }
+
+    // Enquiry Type Listbox
+    private void AddToListBoxenqtype()
+    {
+        if (!string.IsNullOrWhiteSpace(selectedenqtype) && !enqtypelistbox.Contains(selectedenqtype))
+        {
+            enqtypelistbox.Add(selectedenqtype);
+        }
+    }
+
+    private void RemoveFromListBoxenqtype()
+    {
+        foreach (var item in selectedEnqTypeListboxItems.ToList())
+        {
+            enqtypelistbox.Remove(item);
+        }
+        selectedEnqTypeListboxItems.Clear();
+    }
+
+    // Enquiry For Listbox
+    private void AddToListBoxenqfor()
+    {
+        if (!string.IsNullOrWhiteSpace(selectedenqfor) && !enqforlistbox.Contains(selectedenqfor))
+        {
+            enqforlistbox.Add(selectedenqfor);
+        }
+    }
+
+    private void RemoveFromListBoxenqfor()
+    {
+        foreach (var item in selectedEnqForListboxItems.ToList())
+        {
+            enqforlistbox.Remove(item);
+        }
+        selectedEnqForListboxItems.Clear();
+    }
+
+    // Concerned SE Listbox
+    private void AddSEToListBoxToselectedSE()
+    {
+        if (!string.IsNullOrWhiteSpace(selectedSE) && !seListBox.Contains(selectedSE))
+        {
+            seListBox.Add(selectedSE);
+        }
+    }
+
+    private void RemoveSEFromListBoxselectedSE()
+    {
+        foreach (var item in selectedSEListboxItems.ToList())
+        {
+            seListBox.Remove(item);
+        }
+        selectedSEListboxItems.Clear();
+    }
+
+    // Customer Name Listbox
+    private void AddSelectedCustomerToListBox()
+    {
+        if (!string.IsNullOrWhiteSpace(selectedCustomer) && !listBoxCustomers.Contains(selectedCustomer))
+        {
+            listBoxCustomers.Add(selectedCustomer);
+        }
+    }
+
+    private void RemoveSelectedCustomerFromListBox()
+    {
+        foreach (var item in selectedCustomerListboxItems.ToList())
+        {
+            listBoxCustomers.Remove(item);
+        }
+        selectedCustomerListboxItems.Clear();
+    }
+
+    // --- NEW Listbox Add/Remove Handlers for Email fields in EnqFor Modal ---
+
+    // Common Mail IDs
+    private void AddCommonMailToListBox()
+    {
+        if (!string.IsNullOrWhiteSpace(newCommonMailEntry) && !newEnquiryForItem.CommonMailIds.Contains(newCommonMailEntry.Trim()))
+        {
+            newEnquiryForItem.CommonMailIds.Add(newCommonMailEntry.Trim());
+            newCommonMailEntry = string.Empty;
+        }
+    }
+
+    private void RemoveCommonMailFromListBox()
+    {
+        foreach (var item in selectedCommonMailListboxItems.ToList())
+        {
+            newEnquiryForItem.CommonMailIds.Remove(item);
+        }
+        selectedCommonMailListboxItems.Clear();
+    }
+
+    // CC Mail IDs
+    private void AddCCMailToListBox()
+    {
+        if (!string.IsNullOrWhiteSpace(newCCMailEntry) && !newEnquiryForItem.CCMailIds.Contains(newCCMailEntry.Trim()))
+        {
+            newEnquiryForItem.CCMailIds.Add(newCCMailEntry.Trim());
+            newCCMailEntry = string.Empty;
+        }
+    }
+
+    private void RemoveCCMailFromListBox()
+    {
+        foreach (var item in selectedCCMailListboxItems.ToList())
+        {
+            newEnquiryForItem.CCMailIds.Remove(item);
+        }
+        selectedCCMailListboxItems.Clear();
+    }
+}       
