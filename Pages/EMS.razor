@@ -8,7 +8,7 @@
 <br />
 <EditForm Model="@enquiryModel" OnValidSubmit="HandleMainFormSubmit">
     <div class="row mb-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label" style="font-size: 13px;">Source of Enquiry<span class="text-danger">*</span></label>
             <InputSelect class="form-select" @bind-Value="enquiryModel.SourceOfInfo" style="font-size: 13px;">
                 <option value="">-- Select Source --</option>
@@ -21,23 +21,22 @@
     </div>
 
     <div class="row mb-2">
-        <div class="col-md-2">
+        <div class="col-md-1">
             <label class="form-label" style="font-size: 13px;"> Enquiry Date <span class="text-danger">*</span></label>
             <InputDate class="form-control" @bind-Value="enquiryModel.EnquiryDate" style="font-size: 13px;" />
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <label class="form-label" style="font-size: 13px;">Due Date<span class="text-danger">*</span></label>
             <InputDate class="form-control" @bind-Value="enquiryModel.DueOn" style="font-size: 13px;" />
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <label class="form-label" style="font-size: 13px;">Site visit date (If applicable)</label>
             <InputDate class="form-control" @bind-Value="enquiryModel.SiteVisitDate" style="font-size: 13px;" />
         </div>
-
     </div>
 
     <div class="row mb-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label" style="font-size: 13px;">Enquiry Type<span class="text-danger">*</span></label>
 
             <InputSelect class="form-select" @bind-Value="selectedenqtype" style="font-size: 13px;">
@@ -60,16 +59,22 @@
                     <button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveFromListBoxenqtype">-</button>
                 </div>
             </div>
+            @* --- VALIDATION ERROR DISPLAY --- *@
+            @if (inputErrors.ContainsKey("Enquirytype"))
+            {
+                <div class="text-danger" style="font-size: 11px;">@inputErrors["Enquirytype"]</div>
+            }
         </div>
     </div>
 
     <div class="row mb-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label" style="font-size: 13px;">Enquiry for<span class="text-danger">*</span></label>
 
             <div class="input-group">
                 <InputText id="enquiryForInput" class="form-control" @bind-Value="selectedenqfor" style="font-size: 13px;"
-                           list="enquiryForList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "enquiryForInput", "enquiryForList", e.Value)' />
+                           list="enquiryForList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "enquiryForInput", "enquiryForList", e.Value)'
+                           @onblur='() => ValidateControlledInput(selectedenqfor, enquiryfor, "Enquiryfor")' />
                 <datalist id="enquiryForList">
                     @foreach (var item in enquiryfor)
                     {
@@ -83,6 +88,12 @@
                 </button>
             </div>
 
+            @* --- VALIDATION ERROR DISPLAY --- *@
+            @if (inputErrors.ContainsKey("Enquiryfor") && inputErrors["Enquiryfor"] == NO_DATA_FOUND)
+            {
+                <div class="text-danger" style="font-size: 11px;">@inputErrors["Enquiryfor"]</div>
+            }
+
             <div class="d-flex align-items-center mt-1">
                 <select class="form-select" multiple style="height: 75px; font-size: 13px;" @onchange="HandleEnqForListBoxSelection">
                     @foreach (var item in enqforlistbox)
@@ -95,20 +106,23 @@
                     <button type="button" class="btn btn-outline-danger" style="width: 36px; padding: 0.25rem 0.5rem;" @onclick="RemoveFromListBoxenqfor">-</button>
                 </div>
             </div>
+            @if (inputErrors.ContainsKey("Enquiryfor") && inputErrors["Enquiryfor"] != NO_DATA_FOUND)
+            {
+                <div class="text-danger" style="font-size: 11px;">@inputErrors["Enquiryfor"]</div>
+            }
         </div>
     </div>
 
 
     <div class="row mb-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label" style="font-size: 13px;">Customer Name</label>
 
             <div class="input-group">
-                @* --- UPDATED TO USE HandleCustomerSelection --- *@
                 <InputText id="customerInput" class="form-control" @bind-Value="selectedCustomer" style="font-size: 13px; height: 32px;"
                            list="customerList"
-                           @onchange="@((e) => HandleCustomerSelection(e.Value?.ToString()))" />
-                @* @oninput is removed here to prevent too-frequent calls, we rely on @onchange for a final selection. *@
+                           @onchange="@((e) => HandleCustomerSelection(e.Value?.ToString()))"
+                           @onblur='() => ValidateControlledInput(selectedCustomer, existingCustomers, "CustomerName")' />
                 <datalist id="customerList">
                     @foreach (var customer in existingCustomers)
                     {
@@ -119,6 +133,11 @@
                 <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="StartEditCompany" disabled="@(string.IsNullOrWhiteSpace(selectedCustomer))">Edit</button>
             </div>
 
+            @* --- VALIDATION ERROR DISPLAY --- *@
+            @if (inputErrors.ContainsKey("CustomerName"))
+            {
+                <div class="text-danger" style="font-size: 11px;">@inputErrors["CustomerName"]</div>
+            }
 
             <div class="d-flex align-items-center mt-1">
                 <select class="form-select" multiple style="height: 75px; font-size: 13px;" @onchange="HandleCustomerListBoxSelection">
@@ -139,7 +158,9 @@
 
             <div class="input-group">
                 <InputText id="receivedFromInput" class="form-control" @bind-Value="enquiryModel.ReceivedFrom" style="font-size: 13px; height:32px;"
-                           list="receivedFromList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "receivedFromInput", "receivedFromList", e.Value)' />
+                           list="receivedFromList"
+                           @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "receivedFromInput", "receivedFromList", e.Value)'
+                           @onblur='() => ValidateControlledInput(enquiryModel.ReceivedFrom, receivedFroms, "ReceivedFrom")' />
                 <datalist id="receivedFromList">
                     @foreach (var received in receivedFroms)
                     {
@@ -150,6 +171,11 @@
                 <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="StartEditContact" disabled="@(string.IsNullOrWhiteSpace(enquiryModel.ReceivedFrom))">Edit</button>
             </div>
 
+            @* --- VALIDATION ERROR DISPLAY --- *@
+            @if (inputErrors.ContainsKey("ReceivedFrom"))
+            {
+                <div class="text-danger" style="font-size: 11px;">@inputErrors["ReceivedFrom"]</div>
+            }
 
             <div class="d-flex align-items-center mt-1">
                 <select class="form-select" multiple style="height: 70px; font-size: 13px;" @onchange="HandleReceivedFromListBoxSelection">
@@ -168,25 +194,34 @@
 
 
     <div class="row mb-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label" style="font-size: 13px;">Project Name<span class="text-danger">*</span></label>
             <InputText id="projectNameInput" class="form-control" @bind-Value="enquiryModel.ProjectName" style="font-size: 13px;"
-                       list="projectNameList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "projectNameInput", "projectNameList", e.Value)' />
+                       list="projectNameList"
+                       @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "projectNameInput", "projectNameList", e.Value)'
+                       @onblur='() => ValidateControlledInput(enquiryModel.ProjectName, projectNames, "ProjectName")' />
             <datalist id="projectNameList">
                 @foreach (var client in projectNames)
                 {
                     <option value="@client"></option>
                 }
             </datalist>
+            @* --- VALIDATION ERROR DISPLAY --- *@
+            @if (inputErrors.ContainsKey("ProjectName"))
+            {
+                <div class="text-danger" style="font-size: 11px;">@inputErrors["ProjectName"]</div>
+            }
         </div>
     </div>
 
     <div class="row mb-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label" style="font-size: 13px;">Client Name<span class="text-danger">*</span></label>
             <div class="input-group">
                 <InputText id="clientNameInput" class="form-control" @bind-Value="enquiryModel.ClientName" style="font-size: 13px;"
-                           list="clientNameList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "clientNameInput", "clientNameList", e.Value)' />
+                           list="clientNameList"
+                           @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "clientNameInput", "clientNameList", e.Value)'
+                           @onblur='() => ValidateControlledInput(enquiryModel.ClientName, clientNames, "ClientName")' />
                 <datalist id="clientNameList">
                     @foreach (var client in clientNames)
                     {
@@ -196,15 +231,22 @@
                 <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewClientInput">New</button>
                 <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="StartEditCompany" disabled="@(string.IsNullOrWhiteSpace(enquiryModel.ClientName))">Edit</button>
             </div>
+            @* --- VALIDATION ERROR DISPLAY --- *@
+            @if (inputErrors.ContainsKey("ClientName"))
+            {
+                <div class="text-danger" style="font-size: 11px;">@inputErrors["ClientName"]</div>
+            }
         </div>
     </div>
 
     <div class="row mb-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label" style="font-size: 13px;">Consultant Name<span class="text-danger">*</span></label>
             <div class="input-group">
                 <InputText id="consultantNameInput" class="form-control" @bind-Value="enquiryModel.ConsultantName" style="font-size: 13px;"
-                           list="consultantNameList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "consultantNameInput", "consultantNameList", e.Value)' />
+                           list="consultantNameList"
+                           @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "consultantNameInput", "consultantNameList", e.Value)'
+                           @onblur='() => ValidateControlledInput(enquiryModel.ConsultantName, consultantNames, "ConsultantName")' />
                 <datalist id="consultantNameList">
                     @foreach (var consultant in consultantNames)
                     {
@@ -214,16 +256,23 @@
                 <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="ToggleNewConsultantInput">New</button>
                 <button type="button" class="btn" style="font-size: 12px; padding: 0.25rem 0.5rem; background-color: #f0f0f0; color: black; border-color: #ccc;" @onclick="StartEditCompany" disabled="@(string.IsNullOrWhiteSpace(enquiryModel.ConsultantName))">Edit</button>
             </div>
+            @* --- VALIDATION ERROR DISPLAY --- *@
+            @if (inputErrors.ContainsKey("ConsultantName"))
+            {
+                <div class="text-danger" style="font-size: 11px;">@inputErrors["ConsultantName"]</div>
+            }
         </div>
     </div>
 
     <div class="row mb-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label" style="font-size: 13px;">Concerned SE<span class="text-danger">*</span></label>
 
             <div class="input-group">
                 <InputText id="concernedSEInput" class="form-control" @bind-Value="selectedSE" style="font-size: 13px;"
-                           list="concernedSEList" @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "concernedSEInput", "concernedSEList", e.Value)' />
+                           list="concernedSEList"
+                           @oninput='(e) => JSRuntime.InvokeVoidAsync("toggleDataList", "concernedSEInput", "concernedSEList", e.Value)'
+                           @onblur='() => ValidateControlledInput(selectedSE, concernedSEs, "ConcernedSE")' />
                 <datalist id="concernedSEList">
                     @foreach (var se in concernedSEs)
                     {
@@ -236,6 +285,12 @@
                     Edit
                 </button>
             </div>
+
+            @* --- VALIDATION ERROR DISPLAY --- *@
+            @if (inputErrors.ContainsKey("ConcernedSE"))
+            {
+                <div class="text-danger" style="font-size: 11px;">@inputErrors["ConcernedSE"]</div>
+            }
 
             <div class="d-flex align-items-center mt-1">
                 <select class="form-select" multiple style="height: 70px; font-size: 13px;" @onchange="HandleSEListBoxSelection">
@@ -253,14 +308,14 @@
     </div>
 
     <div class="row mb-3">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label" style="font-size: 13px;">Enquiry details</label>
             <InputTextArea class="form-control" @bind-Value="enquiryModel.DetailsOfEnquiry" />
         </div>
     </div>
 
     <div class="row mb-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label" style="font-size: 13px;">Document received along with the enquiry</label>
             <div class="d-flex flex-wrap gap-2 mb-2" style="font-size: 13px;">
                 <div class="form-check form-check-inline">
@@ -291,14 +346,14 @@
 
 
     <div class="row mb-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label" style="font-size: 13px;">Remarks</label>
             <InputTextArea class="form-control" @bind-Value="enquiryModel.Remark" />
         </div>
     </div>
 
     <div class="row mb-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-check" style="font-size: 13px;">
                 <InputCheckbox class="form-check-input" @bind-Value="enquiryModel.AutoAck" id="autoAckCheck" />
                 <label class="form-check-label" for="autoAckCheck">Is it necessary to send an acknowledgement mail to the customer ?</label>
@@ -580,7 +635,7 @@
                                 <option value="Pricing">Pricing</option>
                                 <option value="Quote">Quote</option>
                                 <option value="Dashboard">Dashboard</option>
-                                <option value="Reports">Reports</option> @* <--- NEW OPTION ADDED HERE*@
+                                <option value="Reports">Reports</option>
                             </InputSelect>
                         </div>
                     </div>
@@ -745,6 +800,10 @@
     private string newCCMailEntry = string.Empty;
     private List<string> selectedCCMailListboxItems = new();
 
+    // --- Validation/Error State ---
+    private Dictionary<string, string> inputErrors = new Dictionary<string, string>();
+    private const string NO_DATA_FOUND = "No data found. Please select an existing item or use the 'New' button.";
+
 
     // --- Data Lists (Sample Data) ---
     private List<string> allEmailAddresses = new()
@@ -844,7 +903,6 @@
     // --- Listbox Tracking Variables ---
     private string? selectedCustomer;
     private List<string> listBoxCustomers = new();
-    private string? selectedperson; // Not used directly, but kept for clarity if needed.
     private List<string> listBoxperson = new();
     private string? selectedSE;
     private List<string> seListBox = new();
@@ -861,7 +919,7 @@
     private List<string> selectedSEListboxItems = new();
 
 
-    // --- Core Synchronization Logic ---
+    // --- Core Synchronization Logic (Unchanged from previous update) ---
     private void HandleCustomerSelection(string? companyName)
     {
         selectedCustomer = companyName;
@@ -870,7 +928,6 @@
         if (!string.IsNullOrWhiteSpace(selectedCustomer))
         {
             // 1. Find ALL active contacts associated with the selected company
-            // In a real app, you might also filter by contact status if applicable.
             var contacts = storedContacts
                 .Where(c => c.CompanyName == selectedCustomer)
                 .Select(c => c.ContactName)
@@ -884,10 +941,13 @@
                 // 3. Add all associated contacts to the Received From listbox
                 foreach (var contact in contacts)
                 {
-                    listBoxperson.Add(contact);
+                    if (!listBoxperson.Contains(contact))
+                    {
+                        listBoxperson.Add(contact);
+                    }
                 }
 
-                // 4. Set the main single ReceivedFrom input to the *first* contact found
+                // 4. Set the main single ReceivedFrom input to the *first* active contact found
                 enquiryModel.ReceivedFrom = contacts.First();
             }
             else
@@ -902,12 +962,12 @@
             enquiryModel.ReceivedFrom = string.Empty;
             listBoxperson.Clear();
         }
+        // Force validation check on ReceivedFrom after customer changes
+        ValidateControlledInput(enquiryModel.ReceivedFrom, receivedFroms, "ReceivedFrom");
     }
 
 
-    // --- Model Classes (omitted for brevity, assume they are correct) ---
-    // ... (Your Model Classes: EnquiryModel, EnquiryForItemModel, ContactPersonModel, CustomerCompanyModel, UserModel are here)
-    // --- Model Classes ---
+    // --- Model Classes (Included for completeness) ---
     public class EnquiryModel
     {
         public string? SourceOfInfo { get; set; }
@@ -1009,7 +1069,7 @@
         public string Phone2 { get; set; } = string.Empty;
         public string EmailId { get; set; } = string.Empty;
         public string Website { get; set; } = string.Empty;
-        public string Status { get; set; } = "Active"; // <-- ADDED STATUS
+        public string Status { get; set; } = "Active";
 
         public static CustomerCompanyModel Clone(CustomerCompanyModel original)
         {
@@ -1040,7 +1100,7 @@
         public string Status { get; set; } = "Active";
         public string Designation { get; set; } = "Sales Engineer";
         public string Department { get; set; } = "Sales";
-        public string Role { get; set; } = "Enquiry"; // The new list includes 'Reports'
+        public string Role { get; set; } = "Enquiry";
 
         public static UserModel Clone(UserModel original)
         {
@@ -1223,12 +1283,21 @@
         // Update main form input with the new/edited value if it's active
         if (newCustomerCompany.Status == "Active")
         {
-            if (newCustomerCompany.Category == "Client") enquiryModel.ClientName = newCustomerCompany.CompanyName;
-            else if (newCustomerCompany.Category == "Consultant") enquiryModel.ConsultantName = newCustomerCompany.CompanyName;
+            if (newCustomerCompany.Category == "Client")
+            {
+                enquiryModel.ClientName = newCustomerCompany.CompanyName;
+                ValidateControlledInput(enquiryModel.ClientName, clientNames, "ClientName");
+            }
+            else if (newCustomerCompany.Category == "Consultant")
+            {
+                enquiryModel.ConsultantName = newCustomerCompany.CompanyName;
+                ValidateControlledInput(enquiryModel.ConsultantName, consultantNames, "ConsultantName");
+            }
             else if (newCustomerCompany.Category == "Contractor")
             {
                 // If a new customer is added or an existing one edited, run the selection logic
                 HandleCustomerSelection(newCustomerCompany.CompanyName);
+                ValidateControlledInput(selectedCustomer, existingCustomers, "CustomerName");
             }
         }
 
@@ -1264,6 +1333,8 @@
         {
             listBoxperson.Add(newContactPerson.ContactName);
         }
+        ValidateControlledInput(enquiryModel.ReceivedFrom, receivedFroms, "ReceivedFrom");
+
 
         showContactModal = false;
         newContactPerson = new ContactPersonModel();
@@ -1299,6 +1370,7 @@
                     seListBox.Add(selectedSE);
                 }
             }
+            ValidateControlledInput(selectedSE, concernedSEs, "ConcernedSE");
 
             showUserModal = false;
             newUserModel = new UserModel();
@@ -1316,14 +1388,14 @@
 
         if (modalMode == "Add")
         {
-            if (!storedEnqItems.Any(i => i.ItemName == newEnquiryForItem.ItemName))
+            if (!storedEnqItems.Any(i => i.ItemName.Equals(newEnquiryForItem.ItemName, StringComparison.OrdinalIgnoreCase)))
             {
                 storedEnqItems.Add(newEnquiryForItem);
             }
         }
         else if (modalMode == "Edit" && enqItemToEdit != null)
         {
-            var existingItem = storedEnqItems.FirstOrDefault(i => i.ItemName == enqItemToEdit.ItemName);
+            var existingItem = storedEnqItems.FirstOrDefault(i => i.ItemName.Equals(enqItemToEdit.ItemName, StringComparison.OrdinalIgnoreCase));
             if (existingItem != null)
             {
                 existingItem.CompanyName = newEnquiryForItem.CompanyName;
@@ -1342,6 +1414,7 @@
         {
             enqforlistbox.Add(selectedenqfor);
         }
+        ValidateControlledInput(selectedenqfor, enquiryfor, "Enquiryfor");
 
         showEnqForModal = false;
         newEnquiryForItem = new EnquiryForItemModel();
@@ -1350,10 +1423,79 @@
         newCCMailEntry = string.Empty; // Clear new email input
     }
 
+    // --------------------------------------------------------------------------------
+    // --- NEW REUSABLE VALIDATION LOGIC ---
+    // --------------------------------------------------------------------------------
 
-    // --- Main Form Submission Handler to consolidate listbox data ---
+    /// <summary>
+    /// Validates a single input value against a master list and sets an error if validation fails.
+    /// </summary>
+    /// <param name="inputValue">The value the user typed.</param>
+    /// <param name="masterList">The list of valid items.</param>
+    /// <param name="errorKey">The key to use in the inputErrors dictionary.</param>
+    /// <returns>True if valid (found or empty), False if invalid (not found).</returns>
+    private bool ValidateControlledInput(string? inputValue, List<string> masterList, string errorKey)
+    {
+        inputErrors.Remove(errorKey); // Clear previous error
+
+        if (string.IsNullOrWhiteSpace(inputValue))
+        {
+            // Allow empty on blur/add to listbox, but it will be caught by required field validation on submit
+            return true;
+        }
+
+        if (!masterList.Any(n => n.Equals(inputValue.Trim(), StringComparison.OrdinalIgnoreCase)))
+        {
+            inputErrors[errorKey] = NO_DATA_FOUND;
+            StateHasChanged(); // Force UI update immediately to show the error
+            return false;
+        }
+
+        return true;
+    }
+
+
+    // --------------------------------------------------------------------------------
+    // --- UPDATED MAIN FORM SUBMISSION HANDLER ---
+    // --------------------------------------------------------------------------------
+
     private async Task HandleMainFormSubmit()
     {
+        inputErrors.Clear();
+        bool isValid = true;
+        bool isRequiredValid = true;
+
+        // --- Live Validation Checks (7 Controlled Inputs) ---
+        isValid &= ValidateControlledInput(enquiryModel.ClientName, clientNames, "ClientName");
+        isValid &= ValidateControlledInput(enquiryModel.ConsultantName, consultantNames, "ConsultantName");
+        isValid &= ValidateControlledInput(enquiryModel.ProjectName, projectNames, "ProjectName");
+        isValid &= ValidateControlledInput(selectedCustomer, existingCustomers, "CustomerName");
+        isValid &= ValidateControlledInput(enquiryModel.ReceivedFrom, receivedFroms, "ReceivedFrom");
+        isValid &= ValidateControlledInput(selectedSE, concernedSEs, "ConcernedSE");
+        isValid &= ValidateControlledInput(selectedenqfor, enquiryfor, "Enquiryfor");
+
+        // --- Required Field Checks ---
+        if (string.IsNullOrWhiteSpace(enquiryModel.SourceOfInfo)) { inputErrors["SourceOfInfo"] = "Source is required."; isRequiredValid = false; }
+        if (enquiryModel.EnquiryDate == null) { inputErrors["EnquiryDate"] = "Date is required."; isRequiredValid = false; }
+        if (enquiryModel.DueOn == null) { inputErrors["DueOn"] = "Date is required."; isRequiredValid = false; }
+        if (string.IsNullOrWhiteSpace(enquiryModel.ProjectName)) { inputErrors["ProjectName"] = "Project Name is required."; isRequiredValid = false; }
+        if (string.IsNullOrWhiteSpace(enquiryModel.ClientName)) { inputErrors["ClientName"] = "Client Name is required."; isRequiredValid = false; }
+        if (string.IsNullOrWhiteSpace(enquiryModel.ConsultantName)) { inputErrors["ConsultantName"] = "Consultant Name is required."; isRequiredValid = false; }
+        if (string.IsNullOrWhiteSpace(enquiryModel.ReceivedFrom)) { inputErrors["ReceivedFrom"] = "Received From is required."; isRequiredValid = false; }
+        if (string.IsNullOrWhiteSpace(selectedSE)) { inputErrors["ConcernedSE"] = "Concerned SE is required."; isRequiredValid = false; }
+        if (!enqforlistbox.Any()) { inputErrors["Enquiryfor"] = "At least one item is required."; isRequiredValid = false; }
+        if (!enqtypelistbox.Any()) { inputErrors["Enquirytype"] = "At least one type is required."; isRequiredValid = false; }
+
+
+        if (!isValid || !isRequiredValid)
+        {
+            StateHasChanged(); // Ensure all validation messages are displayed
+            await JS.InvokeVoidAsync("alert", "Validation failed. Please correct the fields with red messages.");
+            return; // Stop submission
+        }
+
+        // --- Submission Logic (Only runs if both validations pass) ---
+
         // Step 1: Transfer Listbox data to the EnquiryModel
         enquiryModel.SelectedEnquiryTypes = enqtypelistbox.ToList();
         enquiryModel.SelectedEnquiryFors = enqforlistbox.ToList();
@@ -1368,17 +1510,23 @@
         Console.WriteLine("--- Final Enquiry Model Data for Saving ---");
         // NOTE: Here you would typically call a service to save enquiryModel to your database.
 
-        await JS.InvokeVoidAsync("alert", "Enquiry data consolidated and ready for save (check console).");
+        await JS.InvokeVoidAsync("alert", "Enquiry successfully validated and ready for save.");
     }
 
-    // --- Listbox Add/Remove Handlers (Main Form) ---
+    // --------------------------------------------------------------------------------
+    // --- UPDATED LISTBOX ADD HANDLERS (with validation) ---
+    // --------------------------------------------------------------------------------
 
     // Received From Listbox
     private void AddToListBox()
     {
-        if (!string.IsNullOrWhiteSpace(enquiryModel.ReceivedFrom) && !listBoxperson.Contains(enquiryModel.ReceivedFrom))
+        if (ValidateControlledInput(enquiryModel.ReceivedFrom, receivedFroms, "ReceivedFrom"))
         {
-            listBoxperson.Add(enquiryModel.ReceivedFrom);
+            if (!string.IsNullOrWhiteSpace(enquiryModel.ReceivedFrom) && !listBoxperson.Contains(enquiryModel.ReceivedFrom))
+            {
+                listBoxperson.Add(enquiryModel.ReceivedFrom);
+                StateHasChanged();
+            }
         }
     }
 
@@ -1391,7 +1539,7 @@
         selectedReceivedFromListboxItems.Clear();
     }
 
-    // Enquiry Type Listbox
+    // Enquiry Type Listbox (No lookup validation needed as it uses InputSelect)
     private void AddToListBoxenqtype()
     {
         if (!string.IsNullOrWhiteSpace(selectedenqtype) && !enqtypelistbox.Contains(selectedenqtype))
@@ -1412,9 +1560,13 @@
     // Enquiry For Listbox
     private void AddToListBoxenqfor()
     {
-        if (!string.IsNullOrWhiteSpace(selectedenqfor) && !enqforlistbox.Contains(selectedenqfor))
+        if (ValidateControlledInput(selectedenqfor, enquiryfor, "Enquiryfor"))
         {
-            enqforlistbox.Add(selectedenqfor);
+            if (!string.IsNullOrWhiteSpace(selectedenqfor) && !enqforlistbox.Contains(selectedenqfor))
+            {
+                enqforlistbox.Add(selectedenqfor);
+                StateHasChanged();
+            }
         }
     }
 
@@ -1430,9 +1582,13 @@
     // Concerned SE Listbox
     private void AddSEToListBoxToselectedSE()
     {
-        if (!string.IsNullOrWhiteSpace(selectedSE) && !seListBox.Contains(selectedSE))
+        if (ValidateControlledInput(selectedSE, concernedSEs, "ConcernedSE"))
         {
-            seListBox.Add(selectedSE);
+            if (!string.IsNullOrWhiteSpace(selectedSE) && !seListBox.Contains(selectedSE))
+            {
+                seListBox.Add(selectedSE);
+                StateHasChanged();
+            }
         }
     }
 
@@ -1448,9 +1604,13 @@
     // Customer Name Listbox
     private void AddSelectedCustomerToListBox()
     {
-        if (!string.IsNullOrWhiteSpace(selectedCustomer) && !listBoxCustomers.Contains(selectedCustomer))
+        if (ValidateControlledInput(selectedCustomer, existingCustomers, "CustomerName"))
         {
-            listBoxCustomers.Add(selectedCustomer);
+            if (!string.IsNullOrWhiteSpace(selectedCustomer) && !listBoxCustomers.Contains(selectedCustomer))
+            {
+                listBoxCustomers.Add(selectedCustomer);
+                StateHasChanged();
+            }
         }
     }
 
@@ -1502,4 +1662,4 @@
         }
         selectedCCMailListboxItems.Clear();
     }
-}       
+}
